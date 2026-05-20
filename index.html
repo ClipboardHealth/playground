@@ -495,7 +495,7 @@
 
       // Anchor for year-based row labels, "today" marker, and section date inputs.
       // Bump TODAY as time passes; defaultSections that use TODAY auto-follow.
-      const CAREER_START = '2008-01';
+      const CAREER_START = '2015-01';
       const TODAY = '2026-05';
       const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
       const MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
@@ -527,14 +527,12 @@
       const WATERMARK_TEXT = 'clipboardworks.com/careers';
       const WATERMARK_URL = 'https://clipboardworks.com/careers';
 
-      // Resume sections by company. Regenerate via resume-to-sections.mjs when the
-      // resume changes. Dates are anchored to CAREER_START.
+      // Placeholder sections. Dates are anchored to CAREER_START.
       const defaultSections = [
-        { label: 'John Deere', start: '2008-01', end: '2012-07', color: '#c4b5fd', opacity: 1, enabled: true },
-        { label: 'Dwolla',     start: '2012-07', end: '2019-09', color: '#93c5fd', opacity: 1, enabled: true },
-        { label: 'Vertex',     start: '2019-09', end: '2022-01', color: '#86efac', opacity: 1, enabled: true },
-        { label: 'Brale',      start: '2022-01', end: '2023-03', color: '#fcd34d', opacity: 1, enabled: true },
-        { label: 'Clipboard',  start: '2023-03', end: TODAY,     color: '#f87171', opacity: 1, enabled: true }
+        { label: 'Company A',  start: '2015-01', end: '2018-06', color: '#c4b5fd', opacity: 1, enabled: true },
+        { label: 'Company B',  start: '2018-06', end: '2022-03', color: '#93c5fd', opacity: 1, enabled: true },
+        { label: 'Company C',  start: '2022-03', end: TODAY,     color: '#86efac', opacity: 1, enabled: true },
+        { label: 'Clipboard?', start: TODAY,     end: '2031-05', color: '#f87171', opacity: 1, enabled: true }
       ];
 
       const deepClone = (value) => JSON.parse(JSON.stringify(value));
