@@ -504,30 +504,28 @@
         const [y, m] = ym.split('-').map(Number);
         return new Date(Date.UTC(y, m - 1, 1));
       };
-      const CAREER_START_DATE = monthToDate(CAREER_START);
-      const CAREER_START_YEAR = CAREER_START_DATE.getUTCFullYear();
-      const monthToWeek = (ym) => {
+      const DEFAULT_START_DATE = monthToDate(CAREER_START);
+      const monthToWeekFrom = (startDate) => (ym) => {
         const d = monthToDate(ym);
         if (!d) return 1;
-        return Math.max(1, Math.floor((d - CAREER_START_DATE) / WEEK_MS) + 1);
+        return Math.max(1, Math.floor((d - startDate) / WEEK_MS) + 1);
       };
-      const weekToMonth = (w) => {
-        const d = new Date(CAREER_START_DATE.getTime() + (Math.max(1, w) - 1) * WEEK_MS);
+      const legacyWeekToMonth = (w) => {
+        const d = new Date(DEFAULT_START_DATE.getTime() + (Math.max(1, w) - 1) * WEEK_MS);
         return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
       };
       // Accepts a month string or (legacy) a week number; returns a month string.
       const coerceMonth = (v) => {
         if (typeof v === 'string' && MONTH_RE.test(v)) return v;
-        if (typeof v === 'number' && Number.isFinite(v)) return weekToMonth(v);
+        if (typeof v === 'number' && Number.isFinite(v)) return legacyWeekToMonth(v);
         return CAREER_START;
       };
-      const TODAY_WEEK = monthToWeek(TODAY);
-      const weekToYear = (w) => CAREER_START_YEAR + Math.floor((Math.max(1, w) - 1) / 52);
+      const weekToYear = (w, startYear) => startYear + Math.floor((Math.max(1, w) - 1) / 52);
+      const legendLabel = (s, startYear) => `${s.label} · ${weekToYear(s.start, startYear)}–${weekToYear(s.end, startYear)}`;
 
       const WATERMARK_TEXT = 'clipboardworks.com/careers';
       const WATERMARK_URL = 'https://clipboardworks.com/careers';
 
-      // Placeholder sections. Dates are anchored to CAREER_START.
       const defaultSections = [
         { label: 'Company A',  start: '2015-01', end: '2018-06', color: '#c4b5fd', opacity: 1, enabled: true },
         { label: 'Company B',  start: '2018-06', end: '2022-03', color: '#93c5fd', opacity: 1, enabled: true },
@@ -575,10 +573,23 @@
         const total = intVal(els.total, DEFAULT_TOTAL, 1, 50000);
         const columns = intVal(els.cols, DEFAULT_COLUMNS, 1, 365);
         const computedRows = Math.ceil(total / columns);
+        // Snap to a January boundary so row-year labels stay aligned.
+        let startDate = DEFAULT_START_DATE;
+        for (const s of state.sections) {
+          if (s.enabled === false) continue;
+          const d = monthToDate(coerceMonth(s.start));
+          if (d && d < startDate) {
+            startDate = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+          }
+        }
+        const startYear = startDate.getUTCFullYear();
+        const monthToWeek = monthToWeekFrom(startDate);
+        const todayWeek = monthToWeek(TODAY);
         return {
           title: safeText(els.title.value),
           subtitle: safeText(els.subtitle.value),
           total, columns, computedRows,
+          startYear, todayWeek,
           ...VISUAL,
           sections: state.sections.map(s => ({
             label: safeText(s.label) || 'Untitled',
@@ -682,7 +693,7 @@
           const swatch = document.createElement('span');
           swatch.className = 'swatch';
           swatch.style.background = blend(s.color, s.opacity, settings.empty);
-          pill.append(swatch, `${s.label} · ${weekToYear(s.start)}–${weekToYear(s.end)}`);
+          pill.append(swatch, legendLabel(s, settings.startYear));
           els.legendPreview.append(pill);
         });
       }
@@ -730,10 +741,7 @@
         // Legend uses a fixed-column grid so labels of different lengths still align.
         const visibleLegend = settings.showLegend ? settings.sections.filter((s) => s.enabled) : [];
         const legendItemGap = 16;
-        const legendItemWidths = visibleLegend.map((s) => {
-          const label = `${s.label} · ${weekToYear(s.start)}–${weekToYear(s.end)}`;
-          return 20 + label.length * 7;
-        });
+        const legendItemWidths = visibleLegend.map((s) => 20 + legendLabel(s, settings.startYear).length * 7);
         const maxLegendItemW = legendItemWidths.length ? Math.max(...legendItemWidths) : 0;
         const legendCols = visibleLegend.length
           ? Math.max(1, Math.floor((gridW + legendItemGap) / (maxLegendItemW + legendItemGap)))
@@ -783,7 +791,7 @@
 
         if (settings.showRowLabels && settings.labelEvery > 0) {
           for (let r = 0; r < settings.computedRows; r++) {
-            const year = CAREER_START_YEAR + r;
+            const year = settings.startYear + r;
             const isFirst = r === 0;
             const isLast = r === settings.computedRows - 1;
             // Label first row, last row, and round years aligned to labelEvery (e.g., 2010, 2015...).
@@ -819,8 +827,8 @@
         }
 
         // "You are here" marker — small filled circle in the center of today's cell.
-        if (TODAY_WEEK > 0 && TODAY_WEEK <= settings.total) {
-          const ti = TODAY_WEEK - 1;
+        if (settings.todayWeek > 0 && settings.todayWeek <= settings.total) {
+          const ti = settings.todayWeek - 1;
           const tcol = ti % settings.columns;
           const trow = Math.floor(ti / settings.columns);
           group.append(createSvgEl('circle', {
@@ -847,7 +855,7 @@
               x: x + 15, y,
               'font-size': 11, 'font-family': 'Arial, Helvetica, sans-serif', fill: '#555555'
             });
-            text.textContent = `${s.label} · ${weekToYear(s.start)}–${weekToYear(s.end)}`;
+            text.textContent = legendLabel(s, settings.startYear);
             legend.append(text);
           });
           svg.append(legend);
