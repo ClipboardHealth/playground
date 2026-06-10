@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>468 PRs in 30 Days — Rocky Warren @ Demandbase</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ─── Design tokens ─────────────────────────────────────────── */
+      :root {
+        --orange: #ff6d00;
+        --orange-dim: rgba(255, 109, 0, 0.12);
+        --orange-glow: rgba(255, 109, 0, 0.45);
+        --red-dim: rgba(255, 60, 60, 0.1);
+        --red-border: rgba(255, 60, 60, 0.35);
+        --green: #4ade80;
+        --green-dim: rgba(74, 222, 128, 0.1);
+        --green-border: rgba(74, 222, 128, 0.4);
+        --bg: #0c0f17;
+        --bg2: #111724;
+        --fg: #efefef;
+        --fg-dim: #8892a4;
+        --code-bg: #161b2e;
+        --font: "JetBrains Mono", "Menlo", "Consolas", monospace;
+      }
+
+      /* ─── Reveal base overrides ──────────────────────────────────── */
+      .reveal-viewport {
+        background: var(--bg);
+      }
+      .reveal {
+        font-family: var(--font);
+        color: var(--fg);
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        font-family: var(--font);
+        text-transform: none;
+        letter-spacing: -0.04em;
+        color: var(--fg);
+        font-weight: 800;
+      }
+      .reveal h1 {
+        font-size: 2.8em;
+        line-height: 1.04;
+      }
+      .reveal h2 {
+        font-size: 1.9em;
+        line-height: 1.08;
+      }
+      .reveal h3 {
+        font-size: 1.25em;
+        font-weight: 600;
+      }
+      .reveal p {
+        font-weight: 300;
+        line-height: 1.6;
+        margin: 0;
+      }
+      .reveal ul,
+      .reveal ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .reveal strong {
+        color: var(--orange);
+        font-weight: 700;
+      }
+      .reveal em {
+        color: var(--fg-dim);
+        font-style: normal;
+        font-weight: 300;
+      }
+      .reveal section {
+        padding: 0 !important;
+      }
+      .reveal .slides section {
+        text-align: left;
+        height: 100%;
+      }
+      .reveal pre {
+        background: var(--code-bg);
+        border: 1px solid rgba(255, 109, 0, 0.22);
+        border-radius: 6px;
+        padding: 1.1em 1.3em;
+        margin: 0;
+        width: 100%;
+        box-shadow: 0 0 36px rgba(255, 109, 0, 0.08);
+        box-sizing: border-box;
+      }
+      .reveal code {
+        font-family: var(--font);
+        font-size: 0.85em;
+        color: #c9d1d9;
+      }
+      .reveal pre code {
+        font-size: 0.76em;
+        line-height: 1.65;
+      }
+      .reveal .progress {
+        color: var(--orange);
+      }
+      .reveal .controls button {
+        color: var(--orange);
+      }
+      .reveal .slide-number {
+        background: transparent;
+        color: rgba(255, 109, 0, 0.35);
+        font-family: var(--font);
+        font-size: 0.68em;
+        bottom: 18px;
+        right: 18px;
+      }
+      /* ─── Dot-grid background ───────────────────────────────────── */
+      .reveal-viewport::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background-image: radial-gradient(rgba(255, 109, 0, 0.06) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+      /* ─── Pulsing wand logo ─────────────────────────────────────── */
+      #wand {
+        position: fixed;
+        top: 18px;
+        right: 22px;
+        width: 34px;
+        height: 34px;
+        opacity: 0.75;
+        z-index: 200;
+      }
+      @keyframes pw {
+        0%,
+        100% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      #wand .w1 {
+        animation: pw 2.4s ease-in-out infinite;
+      }
+      #wand .w2 {
+        animation: pw 2.4s ease-in-out 1.2s infinite;
+      }
+      /* ─── Layout helpers ────────────────────────────────────────── */
+      .inner {
+        padding: 3em 4em;
+        height: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .inner.top {
+        justify-content: flex-start;
+        padding-top: 3.2em;
+      }
+      .inner.spread {
+        justify-content: space-between;
+        padding-top: 3.2em;
+        padding-bottom: 2.8em;
+      }
+      .cols2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2em;
+        align-items: start;
+      }
+      .cols3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1.2em;
+        align-items: start;
+      }
+      /* ─── Typography atoms ──────────────────────────────────────── */
+      .eyebrow {
+        display: block;
+        font-size: 0.62em;
+        font-weight: 600;
+        color: var(--orange);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 0.6em;
+      }
+      .stat {
+        display: block;
+        font-size: 5.2em;
+        font-weight: 800;
+        color: var(--orange);
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+      }
+      .stat-label {
+        font-size: 0.62em;
+        color: var(--fg-dim);
+        font-weight: 300;
+        margin-top: 0.4em;
+      }
+      /* ─── Animations ────────────────────────────────────────────── */
+      @keyframes glow-pulse {
+        0%,
+        100% {
+          text-shadow: 0 0 20px rgba(255, 109, 0, 0.35);
+        }
+        50% {
+          text-shadow:
+            0 0 48px rgba(255, 109, 0, 0.85),
+            0 0 90px rgba(255, 109, 0, 0.25);
+        }
+      }
+      .glow {
+        animation: glow-pulse 2.4s ease-in-out infinite;
+      }
+      .glow2 {
+        animation: glow-pulse 2.4s ease-in-out 0.8s infinite;
+      }
+      .glow3 {
+        animation: glow-pulse 2.4s ease-in-out 1.6s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+      .cursor::after {
+        content: "█";
+        color: var(--orange);
+        animation: blink 1.1s step-end infinite;
+        margin-left: 3px;
+      }
+      /* ─── Component styles ──────────────────────────────────────── */
+      .steps li {
+        display: flex;
+        gap: 0.9em;
+        align-items: flex-start;
+        margin-bottom: 0.7em;
+        font-size: 0.78em;
+        font-weight: 300;
+        line-height: 1.5;
+      }
+      .step-n {
+        color: var(--orange);
+        font-weight: 700;
+        font-size: 0.9em;
+        flex-shrink: 0;
+        min-width: 1.4em;
+      }
+      .step-bad {
+        color: #e05555;
+      }
+      .box {
+        background: var(--code-bg);
+        border: 1px solid rgba(255, 109, 0, 0.22);
+        border-radius: 6px;
+        padding: 1.1em 1.3em;
+      }
+      .box.orange {
+        background: var(--orange-dim);
+        border-color: rgba(255, 109, 0, 0.45);
+      }
+      .box.red {
+        background: var(--red-dim);
+        border-color: var(--red-border);
+      }
+      .tag {
+        display: inline-block;
+        background: var(--orange-dim);
+        border: 1px solid var(--orange);
+        color: var(--orange);
+        padding: 0.15em 0.55em;
+        border-radius: 3px;
+        font-size: 0.62em;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      /* ─── Flow diagram ──────────────────────────────────────────── */
+      .flow-row {
+        display: flex;
+        align-items: center;
+        gap: 0.45em;
+        flex-wrap: wrap;
+      }
+      .flow-step {
+        background: var(--code-bg);
+        border: 1px solid rgba(255, 109, 0, 0.28);
+        border-radius: 4px;
+        padding: 0.32em 0.72em;
+        font-size: 0.68em;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .flow-step.human {
+        border-color: var(--orange);
+        color: var(--orange);
+      }
+      .flow-step.merged {
+        background: var(--green-dim);
+        border-color: var(--green-border);
+        color: var(--green);
+      }
+      .flow-arrow {
+        color: var(--orange);
+        opacity: 0.45;
+        font-size: 0.75em;
+      }
+      .flow-down {
+        margin-left: 2.5em;
+        color: rgba(255, 109, 0, 0.35);
+        font-size: 0.65em;
+        line-height: 1.4;
+      }
+      /* ─── Screenshot wrapper ────────────────────────────────────── */
+      .shot {
+        border: 1px solid rgba(255, 109, 0, 0.18);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+      }
+      .shot img {
+        width: 100%;
+        display: block;
+      }
+      /* ─── Quote ─────────────────────────────────────────────────── */
+      .quote {
+        border-left: 3px solid var(--orange);
+        padding-left: 1.4em;
+        font-size: 0.8em;
+        font-weight: 300;
+        color: var(--fg-dim);
+        margin: 1em 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Always-on wand logo -->
+    <div id="wand" aria-hidden="true">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <line
+          class="w1"
+          x1="18"
+          y1="108"
+          x2="88"
+          y2="11"
+          stroke="#FF6D00"
+          stroke-width="20"
+          stroke-linecap="round"
+        />
+        <line
+          class="w2"
+          x1="102"
+          y1="108"
+          x2="32"
+          y2="11"
+          stroke="#FF6D00"
+          stroke-width="20"
+          stroke-linecap="round"
+        />
+      </svg>
+    </div>
+
+    <div class="reveal">
+      <div class="slides">
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 1 · TITLE
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner spread">
+            <div>
+              <span class="eyebrow">Demandbase Brown Bag · June 2026</span>
+              <h1 style="font-size: 3.4em; max-width: 10ch">468 PRs<br />in 30 Days</h1>
+              <p
+                style="font-size: 0.95em; color: var(--fg-dim); margin-top: 0.5em; font-weight: 300"
+              >
+                With 85% fewer flaky tests.<br />
+                Building quality software with agents.
+              </p>
+            </div>
+            <div>
+              <p style="font-size: 0.7em; color: var(--fg-dim); font-weight: 300">
+                Rocky Warren &nbsp;·&nbsp; Senior Staff Engineer, Clipboard<br />
+                Founding Advisor, Warren Park
+              </p>
+              <p style="font-size: 0.62em; color: rgba(255, 109, 0, 0.45); margin-top: 0.4em">
+                rocky.dev &nbsp;/&nbsp; github.com/therockstorm
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 2 · WHO AM I
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">Background — I'm an engineer, not a vibe coder</span>
+            <h2>20 years.</h2>
+            <div style="margin-top: 1.4em">
+              <div class="box" style="font-size: 0.72em">
+                <span style="color: var(--orange)">$</span> whoami<br /><br />
+                <span style="color: var(--fg-dim)">
+                  <ul class="steps">
+                    <li>
+                      <span class="step-n">2006</span>John Deere: self-driving tractors before it
+                      was cool
+                    </li>
+                    <li>
+                      <span class="step-n">2012</span>Dwolla: Principal engineer, payments APIs
+                    </li>
+                    <li>
+                      <span class="step-n">2019</span>Vertex: Principal engineer and PM, APIs/SDKs
+                    </li>
+                    <li>
+                      <span class="step-n">2022</span>Brale: Principal software and security
+                      engineer
+                    </li>
+                    <li><span class="step-n">2023</span>Clipboard: Senior Staff Engineer</li>
+                    <li><span class="step-n">2025</span>Warren Park: Agentic delivery advisory</li>
+                  </ul></span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 3 · THE ONE THING
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner" style="justify-content: center">
+            <h1
+              class="glow"
+              style="
+                font-size: 3.5em;
+                color: var(--orange);
+                max-width: 13ch;
+                line-height: 0.98;
+                margin-top: 0.5em;
+              "
+            >
+              Your task tracker<br />is the<br />queue.
+            </h1>
+            <p style="font-size: 1.05em; font-weight: 300; color: var(--fg-dim); margin-top: 1.1em">
+              Groundcrew drains it.
+            </p>
+            <p style="font-size: 0.65em; color: rgba(255, 109, 0, 0.35); margin-top: 3em">
+              Flaky tests are one example. There are more.
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 4 · THE PAIN
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">The pain</span>
+            <h2>Flaky tests are a tax.</h2>
+            <div class="cols2" style="margin-top: 1.4em; align-items: center">
+              <div>
+                <p style="font-size: 0.76em; font-weight: 300; color: var(--fg-dim)">
+                  Chad sent me this screenshot after our call.
+                </p>
+                <div class="shot" style="margin-top: 1em">
+                  <img
+                    src="./flake.png"
+                    alt="GitHub comment: The other three failures look like flakes — if they show up again on the new pipeline, retry CI rather than changing code."
+                  />
+                </div>
+              </div>
+              <div>
+                <!--<div class="box red">
+                  <p
+                    style="font-size: 0.7em; font-weight: 600; color: #e05555; margin-bottom: 0.6em"
+                  >
+                    The typical playbook:
+                  </p>
+                  <ul class="steps">
+                    <li>
+                      <span class="step-n step-bad">1.</span>Test fails, retry CI until it passes.
+                    </li>
+                    <li>
+                      <span class="step-n step-bad">3.</span>It fails again next week, skip it and
+                      ship.
+                    </li>
+                    <li>
+                      <span class="step-n step-bad">4.</span>Create a ticket to unskip it, never
+                      prioritize it.
+                    </li>
+                    <li>
+                      <span class="step-n step-bad">5.</span>Notice the test has been skipped for 3
+                      years, delete it.
+                    </li>
+                  </ul>
+                </div>-->
+                <div style="display: flex; gap: 1.6em; margin-top: 1.1em">
+                  <div>
+                    <span style="font-size: 1.9em; font-weight: 800; color: #e05555">2–4h</span>
+                    <p style="font-size: 0.62em; color: var(--fg-dim); margin-top: 0.1em">
+                      to fix one properly
+                    </p>
+                  </div>
+                  <div>
+                    <span style="font-size: 1.9em; font-weight: 800; color: #e05555">~10%</span>
+                    <p style="font-size: 0.62em; color: var(--fg-dim); margin-top: 0.1em">
+                      actually get fixed
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 5 · STATUS QUO WORKFLOW
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">Status quo: debugging a flaky test manually</span>
+            <h2>What "fixing it properly"<br />actually costs.</h2>
+            <div class="box red" style="margin-top: 1.4em; padding: 1.3em 1.5em">
+              <ul class="steps" style="font-size: 0.8em">
+                <li><span class="step-n step-bad">1.</span>Test fails, retry until it passes.</li>
+                <li><span class="step-n step-bad">2.</span>Someone gets bored and invesitgates.</li>
+                <li>
+                  <span class="step-n step-bad">3.</span>Writes a reproduction script. Can't repro
+                  locally. Adds sleeps, mocks, retries.
+                </li>
+                <li>
+                  <span class="step-n step-bad">4.</span>Opens a PR. CI goes green. Merges. Flaky in
+                  3 days.
+                </li>
+                <li>
+                  <span class="step-n step-bad">5.</span>Skip it, create a ticket to unskip it, and
+                  ship.
+                </li>
+                <li>
+                  <span class="step-n step-bad">6.</span>Notice in 3 years it's been skipped this
+                  whole time, delete it.
+                </li>
+                <li><span class="step-n step-bad">7.</span>Repeat.</li>
+              </ul>
+            </div>
+            <div class="box orange" style="margin-top: 1.1em; padding: 0.9em 1.1em">
+              <p style="font-size: 0.74em; font-weight: 300">
+                Across <strong style="color: var(--fg)">50+ repos</strong>, this compounds. Each
+                flaky test lies to humans and agents trying to iterate against them.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 6 · WHY GROUNDCREW
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">The fix — groundcrew</span>
+            <h2>Tickets → PRs while you sleep.</h2>
+            <div style="margin-top: 1.3em">
+              <img
+                src="./groundcrew-diagram.png"
+                style="
+                  width: 100%;
+                  max-height: 290px;
+                  object-fit: contain;
+                  border-radius: 8px;
+                  border: 1px solid rgba(255, 109, 0, 0.15);
+                "
+                alt="Tickets to Pull Requests While You Sleep: Connect → Label & Route → Spawn Session → Agent Works → Deliver"
+              />
+            </div>
+            <p style="font-size: 0.7em; color: var(--fg-dim); margin-top: 1em; font-weight: 300">
+              Point groundcrew at your task tracker. It spawns sandboxed sessions per task and
+              delivers PR-ready branches.
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 7 · TODO.TXT / JIRA
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">Task sources</span>
+            <h2>Any system that creates<br />a task can feed the queue.</h2>
+            <div class="cols2" style="margin-top: 1.4em; align-items: start">
+              <div>
+                <p style="font-size: 0.75em; font-weight: 300; color: var(--fg-dim)">
+                  The task description is the agent prompt. Groundcrew supports Linear, local files,
+                  and other sources with adapters.
+                </p>
+                <p
+                  style="
+                    font-size: 0.75em;
+                    font-weight: 300;
+                    color: var(--fg-dim);
+                    margin-top: 0.8em;
+                  "
+                >
+                  Feed task sources from e.g., GitHub Action, Slack reaction, Datadog webhook,
+                  in-app bug-report widget.
+                </p>
+                <p
+                  style="
+                    font-size: 0.75em;
+                    font-weight: 300;
+                    color: var(--fg-dim);
+                    margin-top: 0.8em;
+                  "
+                >
+                  If it creates a task, groundcrew works it.
+                </p>
+                <div
+                  class="box orange"
+                  style="margin-top: 1em; padding: 0.8em 1em; font-size: 0.73em"
+                >
+                  <strong>The task source doesn't matter.</strong><br />
+                  What matters: the task exists and is well-specified.
+                </div>
+              </div>
+              <div>
+                <p
+                  style="
+                    font-size: 0.62em;
+                    color: var(--orange);
+                    font-weight: 600;
+                    margin-bottom: 0.4em;
+                  "
+                >
+                  todo.txt — plain text, Jira-compatible concept
+                </p>
+                <pre><code>Fix flaky: UserService.findByEmail timeout
+  repo:        backend-api
+  file:        src/user.service.spec.ts:142
+  error:       Async callback not invoked
+               within 5000ms
+  failures:    7 in last 24h
+  fingerprint: a3f9c12e8b47
+
+Add rate-limit header to /shifts endpoint
+  priority: high
+  ticket:   JIRA-4421
+  label:    agent-any</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 8 · THE FULL PIPELINE
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">End to end — flaky test detection through merged fix</span>
+            <h2>Automated detection.<br />Two human gates.</h2>
+            <div style="margin-top: 1.5em; display: flex; flex-direction: column; gap: 0.4em">
+              <div class="flow-row">
+                <div class="flow-step">GitHub Action (hourly)</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">Datadog CI Tests API</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">fingerprint + dedupe</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">Ticket created</div>
+              </div>
+              <div class="flow-down">↓</div>
+              <div class="flow-row">
+                <div class="flow-step">groundcrew picks up</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">/flaky-test-debugger (plan mode)</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step human">⏸ I review the plan</div>
+              </div>
+              <div class="flow-down">↓ approve</div>
+              <div class="flow-row">
+                <div class="flow-step">groundcrew implements</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">/babysit-pr watches CI</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step human">⏸ I review the PR</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step merged">✓ Merged</div>
+              </div>
+            </div>
+            <p style="font-size: 0.7em; color: var(--fg-dim); margin-top: 1.3em; font-weight: 300">
+              Two human gates. Everything else is automated. I handle judgment calls, not routine.
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 9 · FLAKY.SH
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">Detection layer — runs every hour via GitHub Actions</span>
+            <h2>One script.<br />Datadog does the work.</h2>
+            <pre
+              style="margin-top: 1.2em"
+            ><code class="language-bash"># Query Datadog CI Tests API for known flakes
+pup cicd tests search \
+  --query '@test.status:fail @test.known_flaky:true \
+  --from=1h --limit=50 \
+| jq '[.data[].attributes.attributes | {
+    repo:  .git.repository.name,
+    test:  .test.name,
+    file:  "\(.test.source.file):\(.test.source.start)",
+    error: .error.message
+  }] | group_by(.test, .file)'</code></pre>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 10 · HUMAN REVIEW GATE
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">Gate 1 — the plan review</span>
+            <h2>I approve plans,<br />not implementations.</h2>
+            <div class="cols2" style="margin-top: 1.4em; align-items: start">
+              <div>
+                <p style="font-size: 0.76em; font-weight: 300; color: var(--fg-dim)">
+                  groundcrew runs
+                  <strong style="color: var(--fg)">/flaky-test-debugger in plan mode</strong> first.
+                  The agent diagnoses the test, proposes a fix strategy, and creates a fix ticket.
+                </p>
+                <p
+                  style="
+                    font-size: 0.76em;
+                    font-weight: 300;
+                    color: var(--fg-dim);
+                    margin-top: 0.8em;
+                  "
+                >
+                  I read the plan. If the root cause and fix look right, I set it to Todo. Then
+                  groundcrew implements.
+                </p>
+              </div>
+              <div>
+                <pre
+                  style="font-size: 0.88em"
+                ><code class="language-text">Plan: Fix UserService.findByEmail
+
+Root cause:
+  No database cleanup between tests.
+  test_a creates user@test.com.
+  test_b queries same email,
+  finds unexpected record, fails.
+
+Proposed fix:
+  1. Add afterEach cleanup block
+  2. Use UUID suffix per test email
+  3. Verify with --runInBand locally
+
+Estimated change: ~8 lines
+Confidence: high</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 11 · BABYSIT-PR
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">Gate 2 — PR quality automation</span>
+            <h2>/babysit-pr</h2>
+            <div class="cols2" style="margin-top: 1.4em; align-items: start">
+              <ul class="steps">
+                <li><span class="step-n">1.</span>Watches CI after every push</li>
+                <li>
+                  <span class="step-n">2.</span>Fixes test failures and merge conflicts
+                  automatically
+                </li>
+                <li>
+                  <span class="step-n">3.</span>Triages AI review bot comments (CodeRabbit,
+                  etc.):<br />
+                  agree and fix, disagree and explain, or defer to prevent scope creep
+                </li>
+                <li>
+                  <span class="step-n">4.</span>Notifies me in cmux when a PR is genuinely ready
+                </li>
+              </ul>
+              <div>
+                <div class="box" style="font-size: 0.72em; margin-bottom: 1em">
+                  <span style="color: var(--orange)">$</span> /loop 5m /babysit-pr<br /><br />
+                  <span style="color: var(--fg-dim)"
+                    >watching PR #1847...<br />
+                    CI: 2 failures (auth timeout)<br />
+                    fixing...<br />
+                    CodeRabbit: 3 comments<br />
+                    → agreed + fixed: 2<br />
+                    → deferred: 1 (out of scope nit)<br /><br />
+                    <span style="color: var(--green)">✓ PR ready for human review</span></span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 12 · SANDBOXED / YOLO
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">Safety — sandboxed agents</span>
+            <h2>Sandboxes make<br />yolo modes safer.</h2>
+            <div class="cols2" style="margin-top: 1.4em; align-items: start">
+              <div>
+                <p style="font-size: 0.76em; font-weight: 300; color: var(--fg-dim)">
+                  Each task gets an isolated git worktree. Agents run in Docker or Safehouse
+                  sandboxes.
+                </p>
+                <p
+                  style="
+                    font-size: 0.76em;
+                    font-weight: 300;
+                    color: var(--fg-dim);
+                    margin-top: 0.8em;
+                  "
+                >
+                  Auto mode (Claude Code) and Codex's equivalent run without permission prompts,
+                  enable autonomous agents.
+                </p>
+                <ul class="steps" style="margin-top: 1em">
+                  <li>
+                    <span class="step-n">✗</span>Can't read/write files outside of where they're
+                    started
+                  </li>
+                  <li>
+                    <span class="step-n">✗</span>Can't read possible secret-containing env vars
+                  </li>
+                  <li>
+                    <span class="step-n" style="color: var(--green)">✓</span>Can open PRs and access
+                    MCPs
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 13 · OTHER USE CASES
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">Beyond flaky tests — any well-specified, repeatable task</span>
+            <h2>Queue anything.</h2>
+            <div class="cols3" style="margin-top: 1.5em">
+              <div class="box">
+                <p
+                  style="
+                    font-size: 0.62em;
+                    color: var(--orange);
+                    font-weight: 600;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    margin-bottom: 0.7em;
+                  "
+                >
+                  Detection → Fix
+                </p>
+                <ul class="steps" style="font-size: 0.74em">
+                  <li><span class="step-n">→</span>Flaky test triage/fix</li>
+                  <li><span class="step-n">→</span>Datadog alert triage</li>
+                  <li><span class="step-n">→</span>Dependency CVE patches</li>
+                  <li><span class="step-n">→</span>Stale type definitions</li>
+                </ul>
+              </div>
+              <div class="box">
+                <p
+                  style="
+                    font-size: 0.62em;
+                    color: var(--orange);
+                    font-weight: 600;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    margin-bottom: 0.7em;
+                  "
+                >
+                  Feature Work
+                </p>
+                <ul class="steps" style="font-size: 0.74em">
+                  <li><span class="step-n">→</span>Well-defined feature tickets</li>
+                  <li><span class="step-n">→</span>API endpoint additions</li>
+                  <li><span class="step-n">→</span>Config and flag changes</li>
+                  <li><span class="step-n">→</span>Copy and localization updates</li>
+                </ul>
+              </div>
+              <div class="box">
+                <p
+                  style="
+                    font-size: 0.62em;
+                    color: var(--orange);
+                    font-weight: 600;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    margin-bottom: 0.7em;
+                  "
+                >
+                  At Scale
+                </p>
+                <ul class="steps" style="font-size: 0.74em">
+                  <li><span class="step-n">→</span>Cross-repo migrations</li>
+                  <li><span class="step-n">→</span>SDK version upgrades</li>
+                  <li><span class="step-n">→</span>Lint rule enforcement</li>
+                  <li><span class="step-n">→</span>Test coverage gaps</li>
+                </ul>
+              </div>
+            </div>
+            <p style="font-size: 0.7em; color: var(--fg-dim); margin-top: 1.2em; font-weight: 300">
+              groundcrew parallelizes work that would otherwise serialize through your team. One
+              worktree per task.
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 14 · THE NUMBERS
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner" style="justify-content: center">
+            <span class="eyebrow">Results at Clipboard — 30 days of groundcrew</span>
+            <div class="cols3" style="margin-top: 1.5em">
+              <div style="text-align: center">
+                <span class="stat glow">468</span>
+                <p class="stat-label" style="text-align: center">
+                  PRs I shipped in 30 days,<br />none hand-written
+                </p>
+              </div>
+              <div style="text-align: center">
+                <span class="stat glow2">85%</span>
+                <p class="stat-label" style="text-align: center">
+                  reduction in flaky tests<br />on main
+                </p>
+              </div>
+              <div style="text-align: center">
+                <span class="stat glow3">3×</span>
+                <p class="stat-label" style="text-align: center">
+                  deploys per engineer<br />after agents
+                </p>
+              </div>
+            </div>
+            <p style="font-size: 0.74em; color: var(--fg-dim); margin-top: 2em; font-weight: 300">
+              The 85% came from running this pipeline systematically for 30 days.
+            </p>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 15 · LIVE DEMO
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner">
+            <span class="eyebrow">Live demo</span>
+            <div class="box" style="margin-top: 1.6em; padding: 1.3em 1.5em">
+              <ul class="steps">
+                <li><span class="step-n">1.</span>Flaky test in Datadog CI Visibility</li>
+                <li><span class="step-n">2.</span>flaky.sh creates the ticket</li>
+                <li>
+                  <span class="step-n">3.</span>groundcrew picks it up and spawns an agent session
+                </li>
+                <li><span class="step-n">4.</span>Review and approve the plan</li>
+                <li>
+                  <span class="step-n">5.</span>groundcrew picks up the implementation task and
+                  opens the PR
+                </li>
+                <li><span class="step-n">6.</span>/babysit-pr handles CI and CodeRabbit review</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════
+     SLIDE 16 · CTA
+══════════════════════════════════════════════════════ -->
+        <section>
+          <div class="inner spread">
+            <div>
+              <span class="eyebrow">Open source · MIT · 93 releases</span>
+              <h1
+                style="font-size: 2.8em; color: var(--orange); max-width: 13ch; line-height: 0.98"
+              >
+                Your task tracker<br />is the queue.
+              </h1>
+              <p
+                style="
+                  font-size: 0.9em;
+                  font-weight: 300;
+                  color: var(--fg-dim);
+                  margin-top: 0.6em;
+                  max-width: 48ch;
+                "
+              >
+                Groundcrew drains it. Jira, Linear, or a text file. Open source, MIT. Runs on your
+                machine with your tools.
+              </p>
+            </div>
+            <div>
+              <div
+                class="box"
+                style="
+                  display: inline-block;
+                  padding: 1.1em 1.4em;
+                  font-size: 0.82em;
+                  margin-bottom: 1.2em;
+                "
+              >
+                <p style="color: var(--fg-dim)">
+                  <span style="color: var(--orange)">$</span> npm install -g
+                  @clipboard-health/groundcrew@latest
+                </p>
+              </div>
+              <p style="font-size: 0.72em; color: var(--fg-dim)">
+                <strong style="color: var(--fg)">github.com/ClipboardHealth/groundcrew</strong>
+              </p>
+              <p style="font-size: 0.7em; color: var(--fg-dim); margin-top: 0.3em">
+                rocky.dev &nbsp;·&nbsp; github.com/therockstorm
+              </p>
+              <p style="font-size: 0.68em; color: rgba(255, 109, 0, 0.5); margin-top: 0.4em">
+                PRs welcome.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- /.slides -->
+    </div>
+    <!-- /.reveal -->
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css"
+    />
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: "fade",
+        transitionSpeed: "fast",
+        backgroundTransition: "fade",
+        controls: true,
+        progress: true,
+        center: false,
+        width: 1280,
+        height: 720,
+        margin: 0,
+        minScale: 0.2,
+        maxScale: 2.0,
+        plugins: [RevealNotes, RevealHighlight],
+      });
+
+      // Override highlight.js code block background to match theme
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll("pre.hljs").forEach((el) => {
+          el.style.background = "var(--code-bg)";
+        });
+      });
+    </script>
+  </body>
+</html>
