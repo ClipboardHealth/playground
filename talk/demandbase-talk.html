@@ -4,30 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>468 PRs in 30 Days — Rocky Warren @ Demandbase</title>
+    <!-- favicon cut of the mark: no inscription border, fork stroke 16 -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M24 0 H96 A24 24 0 0 1 120 24 V96 A24 24 0 0 1 96 120 H24 A24 24 0 0 1 0 96 V24 A24 24 0 0 1 24 0 Z' fill='%23F7C600'/%3E%3Cpath d='M22 60 H48 M48 60 L92.2 29 M75.3 27.5 L92.2 29 L87.8 45.4 M48 60 L92.2 91 M75.3 92.5 L92.2 91 L87.8 74.6' fill='none' stroke='%23111111' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Overpass:wght@600;700;800;900&display=swap"
       rel="stylesheet"
     />
     <style>
       /* ─── Design tokens ─────────────────────────────────────────── */
       :root {
-        --orange: #ff6d00;
-        --orange-dim: rgba(255, 109, 0, 0.12);
-        --orange-glow: rgba(255, 109, 0, 0.45);
-        --red-dim: rgba(255, 60, 60, 0.1);
-        --red-border: rgba(255, 60, 60, 0.35);
+        /* taxiway brand: yellow directs, black locates, red holds */
+        --yellow: #f7c600;
+        --yellow-dim: rgba(247, 198, 0, 0.12);
+        --yellow-glow: rgba(247, 198, 0, 0.45);
+        --ink: #111111;
+        --hold: #b3261e;
+        /* hold hue lightened for small text on the dark background */
+        --hold-bright: #e0564a;
+        --red-dim: rgba(179, 38, 30, 0.16);
+        --red-border: rgba(179, 38, 30, 0.55);
         --green: #4ade80;
         --green-dim: rgba(74, 222, 128, 0.1);
         --green-border: rgba(74, 222, 128, 0.4);
-        --bg: #0c0f17;
-        --bg2: #111724;
-        --fg: #efefef;
-        --fg-dim: #8892a4;
-        --code-bg: #161b2e;
+        --bg: #151514;
+        --bg2: #1c1c1b;
+        --fg: #f5f2ea;
+        --fg-dim: #9a958a;
+        --code-bg: #1e1d1a;
         --font: "JetBrains Mono", "Menlo", "Consolas", monospace;
+        --display: "Overpass", "Helvetica Neue", Helvetica, sans-serif;
       }
 
       /* ─── Reveal base overrides ──────────────────────────────────── */
@@ -42,9 +53,9 @@
       .reveal h2,
       .reveal h3,
       .reveal h4 {
-        font-family: var(--font);
+        font-family: var(--display);
         text-transform: none;
-        letter-spacing: -0.04em;
+        letter-spacing: -0.01em;
         color: var(--fg);
         font-weight: 800;
       }
@@ -72,7 +83,7 @@
         list-style: none;
       }
       .reveal strong {
-        color: var(--orange);
+        color: var(--yellow);
         font-weight: 700;
       }
       .reveal em {
@@ -89,12 +100,12 @@
       }
       .reveal pre {
         background: var(--code-bg);
-        border: 1px solid rgba(255, 109, 0, 0.22);
+        border: 1px solid rgba(247, 198, 0, 0.22);
         border-radius: 6px;
         padding: 1.1em 1.3em;
         margin: 0;
         width: 100%;
-        box-shadow: 0 0 36px rgba(255, 109, 0, 0.08);
+        box-shadow: 0 0 36px rgba(247, 198, 0, 0.08);
         box-sizing: border-box;
       }
       .reveal code {
@@ -107,14 +118,14 @@
         line-height: 1.65;
       }
       .reveal .progress {
-        color: var(--orange);
+        color: var(--yellow);
       }
       .reveal .controls button {
-        color: var(--orange);
+        color: var(--yellow);
       }
       .reveal .slide-number {
         background: transparent;
-        color: rgba(255, 109, 0, 0.35);
+        color: rgba(247, 198, 0, 0.35);
         font-family: var(--font);
         font-size: 0.68em;
         bottom: 18px;
@@ -127,33 +138,65 @@
         inset: 0;
         pointer-events: none;
         z-index: 0;
-        background-image: radial-gradient(rgba(255, 109, 0, 0.06) 1px, transparent 1px);
+        background-image: radial-gradient(rgba(247, 198, 0, 0.06) 1px, transparent 1px);
         background-size: 32px 32px;
       }
-      /* ─── Pulsing wand logo ─────────────────────────────────────── */
-      #wand {
+      /* ─── Corner sign tile ──────────────────────────────────────── */
+      #mark {
         position: fixed;
         top: 18px;
         right: 22px;
-        width: 34px;
-        height: 34px;
-        opacity: 0.75;
+        width: 32px;
+        height: 32px;
+        opacity: 0.9;
         z-index: 200;
       }
-      @keyframes pw {
-        0%,
-        100% {
-          opacity: 0.7;
-        }
-        50% {
-          opacity: 1;
-        }
+      /* ─── Mini sign lockup (title slide) ────────────────────────── */
+      .mini-sign {
+        display: inline-flex;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
       }
-      #wand .w1 {
-        animation: pw 2.4s ease-in-out infinite;
+      .mini-sign .ms-loc {
+        background: var(--ink);
+        color: var(--yellow);
+        box-shadow: inset 0 0 0 2.5px var(--yellow);
+        border-radius: 8px 0 0 8px;
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 0.6em;
+        letter-spacing: 0.01em;
+        /* Overpass sits high in its line box; extra top padding re-centers */
+        padding: 0.58em 0.8em 0.27em;
+        display: flex;
+        align-items: center;
       }
-      #wand .w2 {
-        animation: pw 2.4s ease-in-out 1.2s infinite;
+      .mini-sign .ms-dir {
+        background: var(--yellow);
+        display: flex;
+        align-items: center;
+        padding: 0 0.45em;
+      }
+      /* ─── Taxiway centerline (title slide) ──────────────────────── */
+      .centerline {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 218px;
+        height: 8px;
+        /* one-period tile: 48px dash + 36px gap; keeps the repeat seamless
+           at the right edge and lets the 84px keyframe shift loop cleanly */
+        background-image: linear-gradient(to right, var(--yellow) 0 48px, transparent 48px);
+        background-size: 84px 100%;
+        background-repeat: repeat-x;
+        opacity: 0.22;
+        animation: taxi 6s linear infinite;
+      }
+      @keyframes taxi {
+        to {
+          background-position-x: -84px;
+        }
       }
       /* ─── Layout helpers ────────────────────────────────────────── */
       .inner {
@@ -190,7 +233,7 @@
         display: block;
         font-size: 0.62em;
         font-weight: 600;
-        color: var(--orange);
+        color: var(--yellow);
         letter-spacing: 0.12em;
         text-transform: uppercase;
         margin-bottom: 0.6em;
@@ -199,7 +242,7 @@
         display: block;
         font-size: 5.2em;
         font-weight: 800;
-        color: var(--orange);
+        color: var(--yellow);
         letter-spacing: -0.04em;
         line-height: 0.9;
       }
@@ -213,12 +256,12 @@
       @keyframes glow-pulse {
         0%,
         100% {
-          text-shadow: 0 0 20px rgba(255, 109, 0, 0.35);
+          text-shadow: 0 0 20px rgba(247, 198, 0, 0.35);
         }
         50% {
           text-shadow:
-            0 0 48px rgba(255, 109, 0, 0.85),
-            0 0 90px rgba(255, 109, 0, 0.25);
+            0 0 48px rgba(247, 198, 0, 0.85),
+            0 0 90px rgba(247, 198, 0, 0.25);
         }
       }
       .glow {
@@ -241,7 +284,7 @@
       }
       .cursor::after {
         content: "█";
-        color: var(--orange);
+        color: var(--yellow);
         animation: blink 1.1s step-end infinite;
         margin-left: 3px;
       }
@@ -256,24 +299,24 @@
         line-height: 1.5;
       }
       .step-n {
-        color: var(--orange);
+        color: var(--yellow);
         font-weight: 700;
         font-size: 0.9em;
         flex-shrink: 0;
         min-width: 1.4em;
       }
       .step-bad {
-        color: #e05555;
+        color: var(--hold-bright);
       }
       .box {
         background: var(--code-bg);
-        border: 1px solid rgba(255, 109, 0, 0.22);
+        border: 1px solid rgba(247, 198, 0, 0.22);
         border-radius: 6px;
         padding: 1.1em 1.3em;
       }
-      .box.orange {
-        background: var(--orange-dim);
-        border-color: rgba(255, 109, 0, 0.45);
+      .box.yellow {
+        background: var(--yellow-dim);
+        border-color: rgba(247, 198, 0, 0.45);
       }
       .box.red {
         background: var(--red-dim);
@@ -281,9 +324,9 @@
       }
       .tag {
         display: inline-block;
-        background: var(--orange-dim);
-        border: 1px solid var(--orange);
-        color: var(--orange);
+        background: var(--yellow-dim);
+        border: 1px solid var(--yellow);
+        color: var(--yellow);
         padding: 0.15em 0.55em;
         border-radius: 3px;
         font-size: 0.62em;
@@ -298,38 +341,102 @@
         gap: 0.45em;
         flex-wrap: wrap;
       }
+      /* sign grammar: black locates (automated), red holds (human gate),
+         yellow clears (merged) */
       .flow-step {
-        background: var(--code-bg);
-        border: 1px solid rgba(255, 109, 0, 0.28);
-        border-radius: 4px;
-        padding: 0.32em 0.72em;
-        font-size: 0.68em;
-        font-weight: 500;
+        background: var(--ink);
+        border: 1px solid rgba(247, 198, 0, 0.45);
+        border-radius: 6px;
+        padding: 0.43em 0.72em 0.19em;
+        font-family: var(--display);
+        font-size: 0.66em;
+        font-weight: 700;
         white-space: nowrap;
       }
       .flow-step.human {
-        border-color: var(--orange);
-        color: var(--orange);
+        background: var(--hold);
+        border-color: var(--hold);
+        color: #fff;
       }
       .flow-step.merged {
-        background: var(--green-dim);
-        border-color: var(--green-border);
-        color: var(--green);
+        background: var(--yellow);
+        border-color: var(--yellow);
+        color: var(--ink);
       }
       .flow-arrow {
-        color: var(--orange);
+        color: var(--yellow);
         opacity: 0.45;
         font-size: 0.75em;
       }
       .flow-down {
         margin-left: 2.5em;
-        color: rgba(255, 109, 0, 0.35);
+        color: rgba(247, 198, 0, 0.35);
         font-size: 0.65em;
         line-height: 1.4;
       }
+      /* ─── Taxiway pipeline (groundcrew slide) ───────────────────── */
+      .taxi-flow {
+        position: relative;
+        display: flex;
+        gap: 0.9em;
+        align-items: flex-start;
+        margin-top: 3em;
+      }
+      .taxi-flow::before {
+        /* centerline runs behind the sign row */
+        content: "";
+        position: absolute;
+        left: -4em;
+        right: -4em;
+        top: 1.45em;
+        height: 8px;
+        /* identical markings to the title centerline */
+        background-image: linear-gradient(to right, var(--yellow) 0 48px, transparent 48px);
+        background-size: 84px 100%;
+        background-repeat: repeat-x;
+        opacity: 0.22;
+        animation: taxi 6s linear infinite;
+      }
+      .taxi-step {
+        flex: 1;
+        position: relative;
+        text-align: center;
+      }
+      .taxi-sign {
+        display: inline-block;
+        background: var(--ink);
+        border: 1.5px solid rgba(247, 198, 0, 0.55);
+        border-radius: 8px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 0.9em;
+        white-space: nowrap;
+        padding: 0.66em 1em 0.36em;
+      }
+      .taxi-sign .n {
+        color: var(--yellow);
+        margin-right: 0.5em;
+      }
+      .taxi-sign.cleared {
+        background: var(--yellow);
+        border-color: var(--yellow);
+        color: var(--ink);
+      }
+      .taxi-sign.cleared .n {
+        color: var(--ink);
+      }
+      .taxi-step p {
+        font-size: 0.66em;
+        color: var(--fg-dim);
+        font-weight: 300;
+        line-height: 1.55;
+        margin-top: 1.4em;
+        padding: 0 0.4em;
+      }
       /* ─── Screenshot wrapper ────────────────────────────────────── */
       .shot {
-        border: 1px solid rgba(255, 109, 0, 0.18);
+        border: 1px solid rgba(247, 198, 0, 0.18);
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
@@ -340,7 +447,7 @@
       }
       /* ─── Quote ─────────────────────────────────────────────────── */
       .quote {
-        border-left: 3px solid var(--orange);
+        border-left: 3px solid var(--yellow);
         padding-left: 1.4em;
         font-size: 0.8em;
         font-weight: 300;
@@ -350,28 +457,26 @@
     </style>
   </head>
   <body>
-    <!-- Always-on wand logo -->
-    <div id="wand" aria-hidden="true">
+    <!-- Always-on sign tile -->
+    <div id="mark" aria-hidden="true">
       <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-        <line
-          class="w1"
-          x1="18"
-          y1="108"
-          x2="88"
-          y2="11"
-          stroke="#FF6D00"
-          stroke-width="20"
-          stroke-linecap="round"
+        <path
+          d="M24 0 H96 A24 24 0 0 1 120 24 V96 A24 24 0 0 1 96 120 H24 A24 24 0 0 1 0 96 V24 A24 24 0 0 1 24 0 Z"
+          fill="#F7C600"
         />
-        <line
-          class="w2"
-          x1="102"
-          y1="108"
-          x2="32"
-          y2="11"
-          stroke="#FF6D00"
-          stroke-width="20"
+        <path
+          d="M21 9 H99 A12 12 0 0 1 111 21 V99 A12 12 0 0 1 99 111 H21 A12 12 0 0 1 9 99 V21 A12 12 0 0 1 21 9 Z"
+          fill="none"
+          stroke="#111"
+          stroke-width="6"
+        />
+        <path
+          d="M22 60 H48 M48 60 L92.2 29 M75.3 27.5 L92.2 29 L87.8 45.4 M48 60 L92.2 91 M75.3 92.5 L92.2 91 L87.8 74.6"
+          fill="none"
+          stroke="#111"
+          stroke-width="11"
           stroke-linecap="round"
+          stroke-linejoin="round"
         />
       </svg>
     </div>
@@ -382,6 +487,7 @@
      SLIDE 1 · TITLE
 ══════════════════════════════════════════════════════ -->
         <section>
+          <div class="centerline" aria-hidden="true"></div>
           <div class="inner spread">
             <div>
               <span class="eyebrow">Demandbase Brown Bag · June 2026</span>
@@ -394,11 +500,25 @@
               </p>
             </div>
             <div>
+              <div class="mini-sign" style="margin-bottom: 1.1em">
+                <span class="ms-loc">GROUNDCREW</span>
+                <span class="ms-dir"
+                  ><svg width="26" height="26" viewBox="0 0 120 120">
+                    <path
+                      d="M22 60 H48 M48 60 L92.2 29 M75.3 27.5 L92.2 29 L87.8 45.4 M48 60 L92.2 91 M75.3 92.5 L92.2 91 L87.8 74.6"
+                      fill="none"
+                      stroke="#111"
+                      stroke-width="11"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg
+                ></span>
+              </div>
               <p style="font-size: 0.7em; color: var(--fg-dim); font-weight: 300">
                 Rocky Warren &nbsp;·&nbsp; Senior Staff Engineer, Clipboard<br />
                 Founding Advisor, Warren Park
               </p>
-              <p style="font-size: 0.62em; color: rgba(255, 109, 0, 0.45); margin-top: 0.4em">
+              <p style="font-size: 0.62em; color: rgba(247, 198, 0, 0.45); margin-top: 0.4em">
                 rocky.dev &nbsp;/&nbsp; github.com/therockstorm
               </p>
             </div>
@@ -414,7 +534,7 @@
             <h2>20 years.</h2>
             <div style="margin-top: 1.4em">
               <div class="box" style="font-size: 0.72em">
-                <span style="color: var(--orange)">$</span> whoami<br /><br />
+                <span style="color: var(--yellow)">$</span> whoami<br /><br />
                 <span style="color: var(--fg-dim)">
                   <ul class="steps">
                     <li>
@@ -449,7 +569,7 @@
               class="glow"
               style="
                 font-size: 3.5em;
-                color: var(--orange);
+                color: var(--yellow);
                 max-width: 13ch;
                 line-height: 0.98;
                 margin-top: 0.5em;
@@ -460,7 +580,7 @@
             <p style="font-size: 1.05em; font-weight: 300; color: var(--fg-dim); margin-top: 1.1em">
               Groundcrew drains it.
             </p>
-            <p style="font-size: 0.65em; color: rgba(255, 109, 0, 0.35); margin-top: 3em">
+            <p style="font-size: 0.65em; color: rgba(247, 198, 0, 0.35); margin-top: 3em">
               Flaky tests are one example. There are more.
             </p>
           </div>
@@ -488,7 +608,7 @@
               <div>
                 <!--<div class="box red">
                   <p
-                    style="font-size: 0.7em; font-weight: 600; color: #e05555; margin-bottom: 0.6em"
+                    style="font-size: 0.7em; font-weight: 600; color: var(--hold-bright); margin-bottom: 0.6em"
                   >
                     The typical playbook:
                   </p>
@@ -512,13 +632,17 @@
                 </div>-->
                 <div style="display: flex; gap: 1.6em; margin-top: 1.1em">
                   <div>
-                    <span style="font-size: 1.9em; font-weight: 800; color: #e05555">2–4h</span>
+                    <span style="font-size: 1.9em; font-weight: 800; color: var(--hold-bright)"
+                      >2–4h</span
+                    >
                     <p style="font-size: 0.62em; color: var(--fg-dim); margin-top: 0.1em">
                       to fix one properly
                     </p>
                   </div>
                   <div>
-                    <span style="font-size: 1.9em; font-weight: 800; color: #e05555">~10%</span>
+                    <span style="font-size: 1.9em; font-weight: 800; color: var(--hold-bright)"
+                      >~10%</span
+                    >
                     <p style="font-size: 0.62em; color: var(--fg-dim); margin-top: 0.1em">
                       actually get fixed
                     </p>
@@ -539,7 +663,7 @@
             <div class="box red" style="margin-top: 1.4em; padding: 1.3em 1.5em">
               <ul class="steps" style="font-size: 0.8em">
                 <li><span class="step-n step-bad">1.</span>Test fails, retry until it passes.</li>
-                <li><span class="step-n step-bad">2.</span>Someone gets bored and invesitgates.</li>
+                <li><span class="step-n step-bad">2.</span>Someone gets bored and investigates.</li>
                 <li>
                   <span class="step-n step-bad">3.</span>Writes a reproduction script. Can't repro
                   locally. Adds sleeps, mocks, retries.
@@ -559,7 +683,7 @@
                 <li><span class="step-n step-bad">7.</span>Repeat.</li>
               </ul>
             </div>
-            <div class="box orange" style="margin-top: 1.1em; padding: 0.9em 1.1em">
+            <div class="box yellow" style="margin-top: 1.1em; padding: 0.9em 1.1em">
               <p style="font-size: 0.74em; font-weight: 300">
                 Across <strong style="color: var(--fg)">50+ repos</strong>, this compounds. Each
                 flaky test lies to humans and agents trying to iterate against them.
@@ -575,23 +699,28 @@
           <div class="inner">
             <span class="eyebrow">The fix — groundcrew</span>
             <h2>Tickets → PRs while you sleep.</h2>
-            <div style="margin-top: 1.3em">
-              <img
-                src="./groundcrew-diagram.png"
-                style="
-                  width: 100%;
-                  max-height: 290px;
-                  object-fit: contain;
-                  border-radius: 8px;
-                  border: 1px solid rgba(255, 109, 0, 0.15);
-                "
-                alt="Tickets to Pull Requests While You Sleep: Connect → Label & Route → Spawn Session → Agent Works → Deliver"
-              />
+            <div class="taxi-flow">
+              <div class="taxi-step">
+                <div class="taxi-sign"><span class="n">1</span>CONNECT</div>
+                <p>Point groundcrew at your task tracker.</p>
+              </div>
+              <div class="taxi-step">
+                <div class="taxi-sign"><span class="n">2</span>LABEL &amp; ROUTE</div>
+                <p>agent-claude / agent-codex labels route each task.</p>
+              </div>
+              <div class="taxi-step">
+                <div class="taxi-sign"><span class="n">3</span>SPAWN</div>
+                <p>One sandboxed worktree + terminal pane per task.</p>
+              </div>
+              <div class="taxi-step">
+                <div class="taxi-sign"><span class="n">4</span>AGENT WORKS</div>
+                <p>The real claude / codex CLI, watchable live.</p>
+              </div>
+              <div class="taxi-step">
+                <div class="taxi-sign cleared"><span class="n">5</span>DELIVER</div>
+                <p>PR-ready branch, CI green, ready for review.</p>
+              </div>
             </div>
-            <p style="font-size: 0.7em; color: var(--fg-dim); margin-top: 1em; font-weight: 300">
-              Point groundcrew at your task tracker. It spawns sandboxed sessions per task and
-              delivers PR-ready branches.
-            </p>
           </div>
         </section>
 
@@ -630,8 +759,8 @@
                   If it creates a task, groundcrew works it.
                 </p>
                 <div
-                  class="box orange"
-                  style="margin-top: 1em; padding: 0.8em 1em; font-size: 0.73em"
+                  class="box yellow"
+                  style="margin-top: 1em; padding: 0.8em 1em; font-size: 0.73em; line-height: 1.6"
                 >
                   <strong>The task source doesn't matter.</strong><br />
                   What matters: the task exists and is well-specified.
@@ -641,24 +770,21 @@
                 <p
                   style="
                     font-size: 0.62em;
-                    color: var(--orange);
+                    color: var(--yellow);
                     font-weight: 600;
                     margin-bottom: 0.4em;
                   "
-                >
-                  todo.txt — plain text, Jira-compatible concept
-                </p>
-                <pre><code>Fix flaky: UserService.findByEmail timeout
+                ></p>
+                <pre><code>Fix flaky UserService.findByEmail timeout
   repo:        backend-api
   file:        src/user.service.spec.ts:142
-  error:       Async callback not invoked
-               within 5000ms
+  error:       Async callback not invoked within 5000ms
   failures:    7 in last 24h
   fingerprint: a3f9c12e8b47
 
 Add rate-limit header to /shifts endpoint
   priority: high
-  ticket:   JIRA-4421
+  ticket:   FLAKE-4421
   label:    agent-any</code></pre>
               </div>
             </div>
@@ -671,7 +797,7 @@ Add rate-limit header to /shifts endpoint
         <section>
           <div class="inner">
             <span class="eyebrow">End to end — flaky test detection through merged fix</span>
-            <h2>Automated detection.<br />Two human gates.</h2>
+            <h2>Automated detection.<br />Two HOLD points.</h2>
             <div style="margin-top: 1.5em; display: flex; flex-direction: column; gap: 0.4em">
               <div class="flow-row">
                 <div class="flow-step">GitHub Action (hourly)</div>
@@ -688,7 +814,7 @@ Add rate-limit header to /shifts endpoint
                 <span class="flow-arrow">→</span>
                 <div class="flow-step">/flaky-test-debugger (plan mode)</div>
                 <span class="flow-arrow">→</span>
-                <div class="flow-step human">⏸ I review the plan</div>
+                <div class="flow-step human">HOLD — I review the plan</div>
               </div>
               <div class="flow-down">↓ approve</div>
               <div class="flow-row">
@@ -696,13 +822,13 @@ Add rate-limit header to /shifts endpoint
                 <span class="flow-arrow">→</span>
                 <div class="flow-step">/babysit-pr watches CI</div>
                 <span class="flow-arrow">→</span>
-                <div class="flow-step human">⏸ I review the PR</div>
+                <div class="flow-step human">HOLD — I review the PR</div>
                 <span class="flow-arrow">→</span>
                 <div class="flow-step merged">✓ Merged</div>
               </div>
             </div>
             <p style="font-size: 0.7em; color: var(--fg-dim); margin-top: 1.3em; font-weight: 300">
-              Two human gates. Everything else is automated. I handle judgment calls, not routine.
+              Two HOLD points — everything else is automated. I handle judgment calls, not routine.
             </p>
           </div>
         </section>
@@ -803,7 +929,7 @@ Confidence: high</code></pre>
               </ul>
               <div>
                 <div class="box" style="font-size: 0.72em; margin-bottom: 1em">
-                  <span style="color: var(--orange)">$</span> /loop 5m /babysit-pr<br /><br />
+                  <span style="color: var(--yellow)">$</span> /loop 5m /babysit-pr<br /><br />
                   <span style="color: var(--fg-dim)"
                     >watching PR #1847...<br />
                     CI: 2 failures (auth timeout)<br />
@@ -841,7 +967,7 @@ Confidence: high</code></pre>
                   "
                 >
                   Auto mode (Claude Code) and Codex's equivalent run without permission prompts,
-                  enable autonomous agents.
+                  enabling autonomous agents.
                 </p>
                 <ul class="steps" style="margin-top: 1em">
                   <li>
@@ -873,7 +999,7 @@ Confidence: high</code></pre>
                 <p
                   style="
                     font-size: 0.62em;
-                    color: var(--orange);
+                    color: var(--yellow);
                     font-weight: 600;
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
@@ -893,7 +1019,7 @@ Confidence: high</code></pre>
                 <p
                   style="
                     font-size: 0.62em;
-                    color: var(--orange);
+                    color: var(--yellow);
                     font-weight: 600;
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
@@ -913,7 +1039,7 @@ Confidence: high</code></pre>
                 <p
                   style="
                     font-size: 0.62em;
-                    color: var(--orange);
+                    color: var(--yellow);
                     font-weight: 600;
                     letter-spacing: 0.1em;
                     text-transform: uppercase;
@@ -1001,7 +1127,7 @@ Confidence: high</code></pre>
             <div>
               <span class="eyebrow">Open source · MIT · 93 releases</span>
               <h1
-                style="font-size: 2.8em; color: var(--orange); max-width: 13ch; line-height: 0.98"
+                style="font-size: 2.8em; color: var(--yellow); max-width: 13ch; line-height: 0.98"
               >
                 Your task tracker<br />is the queue.
               </h1>
@@ -1019,17 +1145,32 @@ Confidence: high</code></pre>
               </p>
             </div>
             <div>
+              <div class="mini-sign" style="margin-bottom: 1.2em">
+                <span class="ms-loc">GROUNDCREW</span>
+                <span class="ms-dir"
+                  ><svg width="26" height="26" viewBox="0 0 120 120">
+                    <path
+                      d="M22 60 H48 M48 60 L92.2 29 M75.3 27.5 L92.2 29 L87.8 45.4 M48 60 L92.2 91 M75.3 92.5 L92.2 91 L87.8 74.6"
+                      fill="none"
+                      stroke="#111"
+                      stroke-width="11"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg
+                ></span>
+              </div>
               <div
                 class="box"
                 style="
-                  display: inline-block;
+                  display: block;
                   padding: 1.1em 1.4em;
                   font-size: 0.82em;
                   margin-bottom: 1.2em;
+                  width: fit-content;
                 "
               >
                 <p style="color: var(--fg-dim)">
-                  <span style="color: var(--orange)">$</span> npm install -g
+                  <span style="color: var(--yellow)">$</span> npm install -g
                   @clipboard-health/groundcrew@latest
                 </p>
               </div>
@@ -1039,7 +1180,7 @@ Confidence: high</code></pre>
               <p style="font-size: 0.7em; color: var(--fg-dim); margin-top: 0.3em">
                 rocky.dev &nbsp;·&nbsp; github.com/therockstorm
               </p>
-              <p style="font-size: 0.68em; color: rgba(255, 109, 0, 0.5); margin-top: 0.4em">
+              <p style="font-size: 0.68em; color: rgba(247, 198, 0, 0.5); margin-top: 0.4em">
                 PRs welcome.
               </p>
             </div>

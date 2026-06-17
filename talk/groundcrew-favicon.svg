@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="groundcrew">
+  <title>groundcrew</title>
+  <!--
+    Favicon/emoji cut of the sign tile: the inscription border is dropped
+    and the fork stroke bumped from 11 to 16 so it stays legible at tiny
+    sizes (16px favicon, ~22px Slack emoji). Same geometry otherwise as
+    groundcrew-mark.svg.
+
+    Regenerate groundcrew-favicon.png with the sips commands in the
+    README's Development section.
+  -->
+  <!-- rounded rectangle as an explicit path: the macOS renderers (sips and
+       qlmanage) that cut the PNG mishandle rx on rect -->
+  <path d="M24 0 H96 A24 24 0 0 1 120 24 V96 A24 24 0 0 1 96 120 H24 A24 24 0 0 1 0 96 V24 A24 24 0 0 1 24 0 Z" fill="#F7C600"/>
+  <path
+    d="M22 60 H48
+       M48 60 L92.2 29 M75.3 27.5 L92.2 29 L87.8 45.4
+       M48 60 L92.2 91 M75.3 92.5 L92.2 91 L87.8 74.6"
+    fill="none" stroke="#111111" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

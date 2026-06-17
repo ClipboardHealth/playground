@@ -1,0 +1,1238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Illinois Nursing Aid Hub | Clipboard</title>
+  <meta name="description" content="A Chicago-area resource hub for healthcare professionals pursuing CNA/BNA, LPN, RN, RN-to-BSN, and related healthcare credentials in Illinois." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Clipboard redesign palette */
+      --cream: #f8f4ea;
+      --cream-muted: #f0e9d9;
+      --paper: #ffffff;
+      --dark: #37171a;
+      --maroon: #5f0302;
+      --maroon-hover: #4a0201;
+      --burgundy: #622929;
+      --accent: #ca3051;
+      --accent-hover: #b0294a;
+      --warm: #97705e;
+      --highlight: #faf97b;
+      --highlight-2: #fafa64;
+      --highlight-hover: #e6e650;
+      --rose: #eba8b6;
+
+      /* Brand chip colors */
+      --chip-green: #aed98a;
+      --chip-blue: #97d9ec;
+      --chip-orange: #f0b97d;
+      --chip-purple: #da9ce5;
+
+      --ink: #211517;
+      --muted: #6f615c;
+      --line: #e4ddcd;
+      --divider: rgba(55, 23, 26, 0.10);
+      --shadow: 0 18px 44px rgba(55, 23, 26, 0.09);
+      --shadow-sm: 0 8px 24px rgba(55, 23, 26, 0.06);
+      --shadow-btn: 0 0.25rem 0.5rem rgba(55, 23, 26, 0.18);
+
+      --radius: 0.875rem;     /* 14px */
+      --radius-sm: 0.625rem;  /* 10px */
+      --pill: 5rem;
+      --max: 1180px;
+
+      --serif: "Lora", Georgia, "Times New Roman", serif;
+      --sans: "Work Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.625;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Editorial paper grain */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.035;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    body > * { position: relative; z-index: 1; }
+
+    h1, h2, h3, h4 {
+      font-family: var(--serif);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      color: var(--dark);
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* ---------- Top nav ---------- */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--highlight);
+      border-bottom: 1px solid rgba(95, 3, 2, 0.10);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+      color: var(--accent);
+    }
+
+    .brand:hover { text-decoration: none; }
+
+    .brand svg { height: 26px; width: auto; display: block; }
+
+    .brand-divider {
+      width: 1px;
+      height: 24px;
+      background: rgba(95, 3, 2, 0.28);
+    }
+
+    .brand-label {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--maroon);
+      white-space: nowrap;
+    }
+
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .navlinks a {
+      color: var(--maroon);
+      font-weight: 500;
+      position: relative;
+    }
+
+    .navlinks a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.2s ease;
+    }
+
+    .navlinks a:hover { text-decoration: none; }
+    .navlinks a:hover::after { width: 100%; }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 11px 22px;
+      border-radius: var(--pill);
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: var(--shadow-btn);
+      transition: background 0.18s ease, transform 0.18s ease;
+    }
+    .nav-cta:hover { background: var(--accent-hover); color: #fff; text-decoration: none; transform: translateY(-1px); }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 14px 28px;
+      border-radius: var(--pill);
+      border: 2px solid transparent;
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 1.0625rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+    }
+    .btn:hover { transform: translateY(-2px); text-decoration: none; }
+
+    .btn-primary {
+      background: var(--highlight-2);
+      color: var(--dark);
+      box-shadow: var(--shadow-btn);
+    }
+    .btn-primary:hover { background: var(--highlight-hover); color: var(--dark); }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: var(--shadow-btn);
+    }
+    .btn-accent:hover { background: var(--accent-hover); color: #fff; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--maroon);
+      border-color: var(--maroon);
+    }
+    .btn-ghost:hover { background: rgba(95, 3, 2, 0.06); color: var(--maroon); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: clamp(48px, 7vw, 88px) 0 clamp(36px, 5vw, 56px); }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--highlight);
+      color: var(--dark);
+      padding: 8px 16px;
+      border-radius: var(--pill);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+    .eyebrow .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 5.6vw, 4.35rem);
+      line-height: 1.02;
+    }
+
+    .hero h1 .underline {
+      background: linear-gradient(transparent 62%, var(--highlight) 62%);
+      padding: 0 0.05em;
+    }
+
+    .lede {
+      font-size: clamp(1.08rem, 1.6vw, 1.28rem);
+      color: var(--muted);
+      max-width: 36rem;
+      margin: 24px 0 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 32px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 30px;
+    }
+
+    .pill {
+      padding: 8px 15px;
+      border-radius: var(--pill);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      color: var(--burgundy);
+      font-weight: 500;
+      font-size: 0.86rem;
+    }
+
+    /* Hero card */
+    .hero-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      top: -90px; right: -90px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: var(--rose);
+      opacity: 0.35;
+    }
+
+    .hero-card h2 {
+      position: relative;
+      margin: 0 0 4px;
+      font-size: 1.5rem;
+      line-height: 1.18;
+    }
+    .hero-card .card-kicker {
+      position: relative;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .quick-list {
+      position: relative;
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .quick-item {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 15px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+    }
+
+    .token {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      background: var(--highlight);
+      color: var(--maroon);
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .quick-item h3 { margin: 0 0 3px; font-size: 1.02rem; line-height: 1.25; }
+    .quick-item p { margin: 0; color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
+
+    .disclaimer-wrap { padding: clamp(4px, 1.5vw, 12px) 0 clamp(8px, 2vw, 20px); }
+
+    .disclaimer-strip {
+      display: flex;
+      align-items: baseline;
+      gap: 13px;
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 16px 22px;
+      border-radius: var(--radius-sm);
+      background: var(--cream-muted);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      color: var(--burgundy);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .disclaimer-tag {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: var(--pill);
+      transform: translateY(-1px);
+    }
+
+    /* ---------- Sections ---------- */
+    section { padding: clamp(44px, 6.5vw, 80px) 0; }
+
+    .band-muted { background: var(--cream-muted); }
+
+    .section-head { margin-bottom: 34px; max-width: 50rem; }
+
+    .kicker {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.85rem, 3.8vw, 3.05rem);
+      line-height: 1.08;
+    }
+
+    .section-head p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 44rem;
+    }
+
+    /* ---------- Start-here cards ---------- */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+    .card .num-badge {
+      width: 38px; height: 38px;
+      border-radius: 11px;
+      background: var(--highlight);
+      color: var(--maroon);
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .card h3 { margin: 0 0 9px; font-size: 1.2rem; line-height: 1.2; }
+    .card p { margin: 0 0 18px; color: var(--muted); font-size: 0.95rem; }
+    .card .card-link {
+      margin-top: auto;
+      font-weight: 600;
+      font-size: 0.94rem;
+      color: var(--accent);
+    }
+    .card .card-link:hover { text-decoration: none; }
+
+    /* ---------- Pathways ---------- */
+    .pathways {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .pathway {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .pathway:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+    .pathway-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 6px 13px;
+      border-radius: var(--pill);
+      font-weight: 600;
+      font-size: 0.76rem;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      color: var(--dark);
+    }
+    .tag-entry   { background: var(--chip-green); }
+    .tag-license { background: var(--chip-blue); }
+    .tag-rn      { background: var(--chip-orange); }
+    .tag-adv     { background: var(--chip-purple); }
+
+    .pathway h3 { margin: 0; font-size: 1.4rem; }
+    .pathway > p { color: var(--muted); margin: 10px 0 16px; }
+    .pathway ul { margin: 0; padding-left: 0; list-style: none; }
+    .pathway li {
+      position: relative;
+      padding-left: 26px;
+      margin: 11px 0;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+    .pathway li::before {
+      content: "";
+      position: absolute;
+      left: 4px; top: 0.62em;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ---------- Directory ---------- */
+    .directory-controls {
+      display: flex;
+      gap: 11px;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search {
+      flex: 1 1 280px;
+      border: 1px solid var(--line);
+      border-radius: var(--pill);
+      background: var(--paper);
+      min-height: 50px;
+      padding: 0 22px;
+      font: inherit;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .search::placeholder { color: var(--warm); }
+    .search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(202, 48, 81, 0.14); }
+
+    .filter-btn {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: var(--pill);
+      padding: 11px 18px;
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      color: var(--burgundy);
+      transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+    }
+    .filter-btn:hover { border-color: var(--maroon); }
+    .filter-btn.active {
+      background: var(--maroon);
+      color: var(--cream);
+      border-color: var(--maroon);
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .resource {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .resource:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+    .resource .type {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 10px;
+    }
+
+    .resource h3 { margin: 0 0 9px; font-size: 1.18rem; line-height: 1.22; }
+    .resource > p { margin: 0 0 16px; color: var(--muted); font-size: 0.93rem; }
+
+    .resource dl {
+      margin: 0 0 18px;
+      display: grid;
+      gap: 8px;
+      font-size: 0.9rem;
+      padding-top: 16px;
+      border-top: 1px solid var(--divider);
+    }
+    .resource dt { font-weight: 600; display: inline; color: var(--burgundy); }
+    .resource dd { display: inline; margin: 0 0 0 4px; color: var(--muted); }
+
+    .resource .links { margin-top: auto; display: flex; gap: 9px; flex-wrap: wrap; }
+    .resource .small-btn {
+      display: inline-flex;
+      border-radius: var(--pill);
+      padding: 9px 15px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      background: var(--cream-muted);
+      color: var(--maroon);
+      transition: background 0.16s ease;
+    }
+    .resource .small-btn:hover { background: #e4dcc9; text-decoration: none; color: var(--maroon); }
+
+    /* ---------- FAQ ---------- */
+    .faq {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 8px 30px;
+      box-shadow: var(--shadow-sm);
+      max-width: 50rem;
+    }
+
+    details {
+      border-bottom: 1px solid var(--divider);
+    }
+    details:last-child { border-bottom: 0; }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 24px 40px 24px 0;
+      position: relative;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.18rem;
+      color: var(--dark);
+      letter-spacing: -0.015em;
+    }
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: "+";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 1.6rem;
+      line-height: 1;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+    details[open] summary::after { content: "\2013"; }
+
+    details p {
+      margin: 0;
+      padding: 0 40px 26px 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    /* ---------- Footer ---------- */
+    footer {
+      background: var(--highlight);
+      padding: 40px 0;
+    }
+
+    .footer-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .footer-top svg { height: 28px; width: auto; color: var(--maroon); }
+
+    footer .disclaimer {
+      color: var(--burgundy);
+      font-size: 0.9rem;
+      max-width: 56rem;
+      line-height: 1.6;
+    }
+    footer .disclaimer strong { color: var(--maroon); }
+
+    .source-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .source-list a {
+      border: 1px solid rgba(95, 3, 2, 0.22);
+      background: rgba(255, 255, 255, 0.55);
+      border-radius: var(--pill);
+      padding: 7px 14px;
+      color: var(--maroon);
+      font-weight: 500;
+      font-size: 0.84rem;
+    }
+    .source-list a:hover { background: #fff; text-decoration: none; color: var(--maroon); }
+
+    /* ---------- Entrance animation ---------- */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(16px); animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
+      .d1 { animation-delay: 0.05s; }
+      .d2 { animation-delay: 0.15s; }
+      .d3 { animation-delay: 0.25s; }
+      .d4 { animation-delay: 0.35s; }
+      @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-grid { gap: 32px; }
+      .cards, .resource-grid { grid-template-columns: repeat(2, 1fr); }
+      .pathways { grid-template-columns: 1fr; }
+      .navlinks { display: none; }
+    }
+
+    @media (max-width: 620px) {
+      .wrap { width: min(var(--max), calc(100% - 28px)); }
+      .cards, .resource-grid { grid-template-columns: 1fr; }
+      .brand-label { display: none; }
+      .nav-cta { display: none; }
+      .faq { padding-left: 22px; padding-right: 22px; }
+      summary, details p { padding-right: 34px; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      body::before, .topbar, .directory-controls, .hero-actions, .nav-cta { display: none; }
+      .hero-card, .card, .pathway, .resource, .faq { box-shadow: none; break-inside: avoid; }
+      footer { background: #fff; border-top: 1px solid var(--line); }
+      a::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #555; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" aria-label="Top navigation">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Clipboard — Illinois Nursing Aid Hub home">
+        <svg viewBox="0 0 1300 375" role="img" aria-label="Clipboard" fill="currentColor">
+          <path d="M188.89,306.72V9.36s56.96,0,56.96,0v297.34s-56.96,0-56.96,0v.02s0,0,0,0Z"/>
+          <path d="M267.88,66.34V9.36s56.96,0,56.96,0v56.98s-56.96,0-56.96,0ZM267.89,306.72V105.65s56.96,0,56.96,0v201.05s-56.96,0-56.96,0v.02Z"/>
+          <path d="M345.68,368.66V105.64s52.57,0,52.57,0l4.39,26.34h2.18c3.15-8.65,8.46-15.69,15.9-21.13,7.44-5.44,16.14-8.16,26.11-8.16,8.78,0,16.32,1.68,22.64,5.01,6.33,3.34,11.56,8.11,15.71,14.28,4.13,6.19,7.12,13.53,8.96,22.08,1.82,8.54,2.73,17.75,2.73,27.62v69.37c0,13.34-1.71,25.3-5.12,35.79-3.42,10.52-8.78,18.61-16.08,24.29-7.31,5.68-16.91,8.54-28.85,8.54-9.99,0-18.68-2.67-26.11-7.98-7.43-5.31-12.72-12.43-15.9-21.32h-2.18s0,88.29,0,88.29h-56.96v.02h.01v-.02ZM420.89,265.54c4.13,0,7.67-.93,10.59-2.78,2.92-1.84,5.12-4.51,6.57-7.98,1.47-3.47,2.18-7.55,2.18-12.25v-72.7c0-4.94-.73-9.11-2.18-12.43-1.47-3.34-3.65-5.92-6.57-7.79-2.92-1.87-6.46-2.78-10.59-2.78-4.39,0-8.09,1.12-11.14,3.34-3.05,2.21-5.41,5.44-7.12,9.63v92.74c1.95,4.21,4.39,7.42,7.31,9.63,2.92,2.21,6.57,3.34,10.96,3.34v.02s-.01,0-.01,0h0Z"/>
+          <path d="M617.44,309.69c-9.98,0-18.67-2.67-26.11-7.98-7.44-5.31-12.72-12.43-15.9-21.32h-2.18s-4.39,26.34-4.39,26.34h-52.57s0-297.37,0-297.37h56.96s0,122.63,0,122.63h2.18c3.15-8.65,8.46-15.69,15.9-21.13,7.43-5.44,16.14-8.16,26.11-8.16,8.78,0,16.32,1.69,22.65,5.01,6.33,3.34,11.55,8.11,15.7,14.28,4.13,6.19,7.12,13.53,8.96,22.08,1.82,8.54,2.74,17.75,2.74,27.62v69.37c0,13.34-1.71,25.3-5.12,35.79-3.41,10.52-8.78,18.6-16.08,24.29-7.31,5.68-16.91,8.54-28.85,8.54v.02h0,0ZM591.52,265.55c4.13,0,7.67-.93,10.59-2.78,2.92-1.84,5.12-4.51,6.57-7.98,1.47-3.47,2.19-7.55,2.19-12.25v-72.7c0-4.94-.74-9.11-2.19-12.43-1.47-3.34-3.65-5.92-6.57-7.79-2.9-1.87-6.46-2.78-10.59-2.78-4.39,0-8.1,1.12-11.14,3.34-3.05,2.21-5.42,5.44-7.12,9.63v92.74c1.95,4.21,4.39,7.42,7.31,9.63,2.91,2.21,6.57,3.34,10.96,3.34v.02s-.01,0-.01,0h0Z"/>
+          <path d="M760.69,309.67c-11.93,0-22.6-1.93-31.95-5.73-9.38-3.84-17.29-9.39-23.72-16.68-6.46-7.29-11.38-16.33-14.79-27.09-3.42-10.76-5.13-22.69-5.13-35.79v-36.35c0-17.57,2.97-32.69,8.96-45.45,5.97-12.73,14.56-22.56,25.76-29.49,11.18-6.92,24.83-10.39,40.91-10.39,12.17,0,22.94,1.93,32.32,5.74,9.38,3.84,17.28,9.45,23.72,16.87,6.45,7.42,11.37,16.38,14.8,26.9,3.42,10.52,5.13,22.45,5.13,35.79v36.35c0,17.57-3,32.78-8.96,45.64-5.97,12.86-14.62,22.69-25.93,29.49-11.32,6.81-25.01,10.2-41.09,10.2h-.02s0,0,0,0ZM760.69,265.53c4.39,0,8.04-.93,10.96-2.78,2.92-1.84,5.05-4.32,6.39-7.42,1.34-3.1,2-6.73,2-10.94v-76.04c0-4.46-.68-8.22-2-11.32-1.34-3.1-3.47-5.55-6.39-7.42-2.9-1.87-6.57-2.78-10.96-2.78-4.15,0-7.67.93-10.59,2.78-2.92,1.84-5.05,4.32-6.39,7.42-1.34,3.1-2,6.86-2,11.32v76.04c0,4.21.65,7.85,2,10.94,1.34,3.1,3.47,5.55,6.39,7.42,2.9,1.87,6.42,2.78,10.59,2.78Z"/>
+          <path d="M903.94,309.68c-8.51,0-16.01-1.68-22.46-5.01-6.46-3.34-11.69-8.03-15.71-14.1-4.02-6.06-6.99-13.34-8.96-21.89-1.94-8.54-2.9-17.75-2.9-27.62v-69.37c0-13.58,1.76-25.64,5.3-36.16,3.53-10.52,8.96-18.61,16.27-24.29,7.31-5.68,16.79-8.54,28.48-8.54,10.22,0,18.99,2.72,26.29,8.16,7.31,5.44,12.54,12.49,15.71,21.13h2.56s4.38-26.34,4.38-26.34h52.58s0,201.05,0,201.05h-52.58s-4.38-26.34-4.38-26.34h-2.56c-3.17,8.92-8.4,16.01-15.71,21.32-7.3,5.31-16.08,7.98-26.29,7.98h-.01s0,.02,0,.02ZM930.59,265.53c4.13,0,7.73-1.23,10.76-3.71,3.05-2.48,5.42-5.82,7.12-10v-91.63c-1.7-4.45-4.06-7.79-7.12-10-3.04-2.21-6.64-3.34-10.76-3.34-4.38,0-8.04.93-10.96,2.78-2.9,1.84-5.12,4.45-6.57,7.79-1.47,3.34-2.19,7.48-2.19,12.43v72.7c0,4.7.74,8.78,2.19,12.25,1.47,3.47,3.65,6.11,6.57,7.98s6.58,2.78,10.96,2.78v-.02s0-.01,0-.01Z"/>
+          <polygon points="1025.44 306.66 1025.44 306.73 1025.43 306.71 1025.42 306.71 1025.4 306.66 1025.44 306.66"/>
+          <path d="M1186.57,309.69c-8.52,0-16-1.68-22.46-5.01-6.46-3.34-11.69-8.03-15.7-14.1-4.03-6.06-6.99-13.34-8.96-21.89-1.95-8.54-2.92-17.75-2.92-27.62v-69.37c0-13.58,1.76-25.64,5.32-36.16,3.52-10.52,8.96-18.61,16.25-24.29,7.31-5.68,16.8-8.54,28.48-8.54,10.22,0,19,2.73,26.29,8.16,7.31,5.44,12.54,12.49,15.72,21.13h2.55s0-122.64,0-122.64h56.95s0,297.37,0,297.37h-52.57s-4.38-26.34-4.38-26.34h-2.55c-3.18,8.92-8.41,16.01-15.72,21.32-7.29,5.31-16.07,7.98-26.29,7.98h-.01ZM1213.23,265.55c4.13,0,7.73-1.23,10.78-3.71,3.05-2.48,5.41-5.82,7.12-10v-91.63c-1.7-4.46-4.07-7.79-7.12-10s-6.65-3.34-10.78-3.34c-4.38,0-8.04.93-10.95,2.78-2.92,1.84-5.13,4.46-6.57,7.79-1.47,3.34-2.19,7.47-2.19,12.43v72.7c0,4.7.73,8.78,2.19,12.25,1.47,3.47,3.65,6.11,6.57,7.98,2.92,1.87,6.57,2.78,10.95,2.78v-.02s0-.01,0-.01Z"/>
+          <path d="M1124.38,157.99h-14.98c-17.71,0-27.05,9.66-27.05,26.83v121.9s-56.95,0-56.95,0V105.42s52.58,0,52.58,0l4.39,26.75h2.26c2.82-10.17,11.62-18.77,15.1-21.14,6.64-4.53,14.99-7.75,24.64-8.4v55.36Z"/>
+          <path d="M105.22,159.03c10.98-40.24,30.04-104.47-12.66-104.47-14.06,0-23.76,8.95-23.76,29.77,0,35,.08,121.9.08,143.04,0,10.89,2.16,32.09,23.68,32.09,15.5,0,25.55-8.8,25.55-32.09,0,0,0-15.6,0-24.38h50.77c0,29.35,2.06,106.71-76.32,106.71-20.07,0-80.65-7.84-80.65-90.32l.05-125.4c0-73.97,48.35-87.66,80.6-87.66,65.26,0,95.64,52.75,63.3,152.71h-50.64Z"/>
+        </svg>
+        <span class="brand-divider" aria-hidden="true"></span>
+        <span class="brand-label">Nursing Aid Hub</span>
+      </a>
+      <nav class="navlinks" aria-label="Page sections">
+        <a href="#start">Start here</a>
+        <a href="#pathways">Pathways</a>
+        <a href="#directory">Resources</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="nav-cta" href="#directory">Find resources</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow reveal d1"><span class="dot" aria-hidden="true"></span>Illinois + Chicagoland nursing-school resources</div>
+          <h1 class="reveal d1">Get help paying for your next <span class="underline">healthcare credential</span>.</h1>
+          <p class="lede reveal d2">A practical guide for Illinois healthcare professionals pursuing CNA/BNA, LPN, RN, RN-to-BSN, or nursing-adjacent training while working.</p>
+          <div class="hero-actions reveal d3" aria-label="Primary calls to action">
+            <a class="btn btn-primary" href="#directory">Find local resources</a>
+            <a class="btn btn-ghost" href="#start">See funding options</a>
+            <a class="btn btn-ghost" href="#pathways">Pick your pathway</a>
+          </div>
+          <div class="pill-row reveal d4" aria-label="Covered topics">
+            <span class="pill">FAFSA + Alternative App</span>
+            <span class="pill">MAP Grants</span>
+            <span class="pill">WIOA training funding</span>
+            <span class="pill">Nursing scholarships</span>
+            <span class="pill">Childcare + basic needs</span>
+          </div>
+        </div>
+
+        <aside class="hero-card reveal d3" aria-label="Three steps to start">
+          <span class="card-kicker">Start with these three moves</span>
+          <h2>A faster way to begin</h2>
+          <div class="quick-list">
+            <div class="quick-item">
+              <div class="token" aria-hidden="true">1</div>
+              <div>
+                <h3>Complete a financial-aid application</h3>
+                <p>Use FAFSA or the Illinois Alternative Application so schools can check grants, scholarships, and need-based aid.</p>
+              </div>
+            </div>
+            <div class="quick-item">
+              <div class="token" aria-hidden="true">2</div>
+              <div>
+                <h3>Ask about WIOA funding</h3>
+                <p>WIOA may pay for approved healthcare training for eligible Illinois residents through local American Job Centers.</p>
+              </div>
+            </div>
+            <div class="quick-item">
+              <div class="token" aria-hidden="true">3</div>
+              <div>
+                <h3>Stabilize childcare, food, and transportation</h3>
+                <p>School persistence often depends on wraparound support, not just tuition money.</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="wrap disclaimer-wrap">
+      <p class="disclaimer-strip"><span class="disclaimer-tag">Important</span> Eligibility, deadlines, award amounts, and program availability change. Always confirm directly with the agency, school, or program before making enrollment or borrowing decisions.</p>
+    </div>
+
+    <section id="start">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">Start here</span>
+          <h2>The highest-leverage funding routes</h2>
+          <p>Most workers should check public aid, workforce funding, and school-based aid before taking private loans.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="num-badge" aria-hidden="true">1</div>
+            <h3>FAFSA or Illinois Alternative App</h3>
+            <p>Unlocks Pell, school aid, and Illinois grants such as MAP for eligible students. ISAC offers free help with applications and aid questions.</p>
+            <a class="card-link" href="https://www.isac.org/students/before-college/financial-aid-planning/fafsa/" target="_blank" rel="noopener">Get ISAC help →</a>
+          </article>
+          <article class="card">
+            <div class="num-badge" aria-hidden="true">2</div>
+            <h3>WIOA training funding</h3>
+            <p>Eligible adults may receive funding for approved training through Illinois workNet or a local American Job Center.</p>
+            <a class="card-link" href="https://apps.illinoisworknet.com/cis/wioatraining" target="_blank" rel="noopener">Search approved programs →</a>
+          </article>
+          <article class="card">
+            <div class="num-badge" aria-hidden="true">3</div>
+            <h3>Nursing-specific scholarships</h3>
+            <p>Check Illinois Nursing Education Scholarship, Illinois Nurses Foundation, Cook County Provident Scholarship, and school scholarships.</p>
+            <a class="card-link" href="https://www.isac.org/students/during-college/types-of-financial-aid/scholarships/nursing-education-scholarship-program.html" target="_blank" rel="noopener">Review Illinois nursing aid →</a>
+          </article>
+          <article class="card">
+            <div class="num-badge" aria-hidden="true">4</div>
+            <h3>Basic-needs support</h3>
+            <p>Use 2-1-1 Metro Chicago, Illinois Action for Children, SNAP/Link help, and food resources when childcare, housing, or food costs threaten school.</p>
+            <a class="card-link" href="https://211metrochicago.org/" target="_blank" rel="noopener">Find support →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pathways" class="band-muted">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">Pathways</span>
+          <h2>Choose your path</h2>
+          <p>Use this as a starting map. Confirm admission requirements, prerequisites, clinical schedules, accreditation, board approval, total cost, and aid deadlines directly with each school.</p>
+        </div>
+        <div class="pathways">
+          <article class="pathway">
+            <div class="pathway-top">
+              <h3>CNA / Basic Nursing Assistant</h3>
+              <span class="tag tag-entry">Entry pathway</span>
+            </div>
+            <p>Good for workers entering healthcare, meeting nursing-program prerequisites, or building patient-care hours.</p>
+            <ul>
+              <li>Ask the local American Job Center whether the program is WIOA-approved.</li>
+              <li>Check City Colleges, Instituto, College of DuPage, Harper, Oakton, Moraine Valley, and other community colleges.</li>
+              <li>Budget for background check, physical, immunizations/titers, books, scrubs, transportation, and exam fees.</li>
+            </ul>
+          </article>
+
+          <article class="pathway">
+            <div class="pathway-top">
+              <h3>LPN / Practical Nursing</h3>
+              <span class="tag tag-license">License pathway</span>
+            </div>
+            <p>Good for CNAs and other healthcare workers who want a faster licensed-nursing step before RN.</p>
+            <ul>
+              <li>Check practical-nursing programs at Malcolm X College, Harper College, and other Illinois-approved providers.</li>
+              <li>Ask whether WIOA, MAP, school aid, or the Illinois Nursing Education Scholarship can apply.</li>
+              <li>Confirm clinical schedule and whether you can continue working while enrolled.</li>
+            </ul>
+          </article>
+
+          <article class="pathway">
+            <div class="pathway-top">
+              <h3>RN / ADN</h3>
+              <span class="tag tag-rn">RN pathway</span>
+            </div>
+            <p>Good for LPNs and CNAs moving toward RN licensure through an associate degree in nursing.</p>
+            <ul>
+              <li>Check City Colleges of Chicago / Malcolm X, Instituto College, College of DuPage, Moraine Valley, Oakton, Harper, and other local programs.</li>
+              <li>Confirm prerequisite courses, TEAS or entrance testing, CNA requirements, waitlists, and NCLEX pass-rate disclosures.</li>
+              <li>Ask early about WIOA eligibility and scholarship deadlines; many deadlines close months before classes begin.</li>
+            </ul>
+          </article>
+
+          <article class="pathway">
+            <div class="pathway-top">
+              <h3>RN-to-BSN</h3>
+              <span class="tag tag-adv">Advancement pathway</span>
+            </div>
+            <p>Good for current RNs seeking BSN completion for advancement, hospital roles, public health, leadership, or graduate study.</p>
+            <ul>
+              <li>Compare online and hybrid options such as UIC and other Illinois universities.</li>
+              <li>Ask about transfer credits, part-time pacing, clinical/project requirements, and scholarships for working nurses.</li>
+              <li>Consider loan-repayment or service programs if you work in qualifying shortage or public-service settings.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="directory">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">Resource directory</span>
+          <h2>Chicago-area resources</h2>
+          <p>Search by need or use the filters. These are public resources and potential Clipboard partnership targets.</p>
+        </div>
+
+        <div class="directory-controls" aria-label="Directory search and filters">
+          <input id="resourceSearch" class="search" type="search" placeholder="Search: childcare, WIOA, RN, food, FAFSA…" aria-label="Search resources" />
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="funding">Funding</button>
+          <button class="filter-btn" data-filter="training">Training</button>
+          <button class="filter-btn" data-filter="basic-needs">Basic needs</button>
+          <button class="filter-btn" data-filter="partner">Partner targets</button>
+        </div>
+
+        <div class="resource-grid" id="resourceGrid">
+          <article class="resource" data-category="funding partner" data-keywords="isac fafsa alternative application map grant nursing education scholarship nes financial aid scholarship grants">
+            <div class="type">Funding + advising</div>
+            <h3>Illinois Student Assistance Commission</h3>
+            <p>Free state financial-aid help, FAFSA and Alternative Application support, MAP Grant information, and Nursing Education Scholarship details.</p>
+            <dl>
+              <div><dt>Phone:</dt> <dd>800-899-4722</dd></div>
+              <div><dt>Partner line:</dt> <dd>866-247-2172</dd></div>
+              <div><dt>Email:</dt> <dd>isac.studentservices@illinois.gov</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://www.isac.org/" target="_blank" rel="noopener">Visit ISAC</a>
+              <a class="small-btn" href="https://www.isac.org/about-isac/contact.html" target="_blank" rel="noopener">Contact</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="funding training partner" data-keywords="wioa workforce training healthcare sector center american job center chicago cook no cost career seeker">
+            <div class="type">WIOA + healthcare workforce</div>
+            <h3>Chicago Cook Workforce Partnership — Healthcare Sector Center</h3>
+            <p>Specialized healthcare workforce hub for career seekers, healthcare employers, training referrals, and WIOA-funded pathways in Chicago/Cook County.</p>
+            <dl>
+              <div><dt>Phone:</dt> <dd>312-690-4655</dd></div>
+              <div><dt>Email:</dt> <dd>HealthcareCareers@equusworks.com</dd></div>
+              <div><dt>Address:</dt> <dd>910 W Van Buren St, Suite 501, Chicago</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://chicookworks.org/locations/healthcare-center/" target="_blank" rel="noopener">Healthcare Center</a>
+              <a class="small-btn" href="https://chicookworks.org/job-seekers/" target="_blank" rel="noopener">Career seekers</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="funding training" data-keywords="illinois worknet service finder wioa approved training programs zip county american job center">
+            <div class="type">Statewide WIOA search</div>
+            <h3>Illinois workNet</h3>
+            <p>Use the Service Finder to find the right local American Job Center, then search WIOA-approved training programs by ZIP code and career area.</p>
+            <dl>
+              <div><dt>Best for:</dt> <dd>Workers outside Cook County or comparing approved providers</dd></div>
+              <div><dt>Ask for:</dt> <dd>Eligibility screening and Individual Training Account options</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://www.illinoisworknet.com/Connect/Pages/LocationSearch.aspx" target="_blank" rel="noopener">Find a center</a>
+              <a class="small-btn" href="https://apps.illinoisworknet.com/cis/wioatraining" target="_blank" rel="noopener">Training search</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="training partner" data-keywords="malcolm x city colleges chicago nursing practical nursing pn lpn adn rn aas financial aid">
+            <div class="type">Chicago nursing school</div>
+            <h3>City Colleges of Chicago — Malcolm X College</h3>
+            <p>Local healthcare-focused college with practical nursing and associate degree nursing pathways, plus student financial-aid support.</p>
+            <dl>
+              <div><dt>Nursing:</dt> <dd>312-850-7159</dd></div>
+              <div><dt>Financial aid:</dt> <dd>312-850-7070</dd></div>
+              <div><dt>Email:</dt> <dd>mxc-fin-aid@ccc.edu</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://www.ccc.edu/malcolm-x/departments/nursing-department/" target="_blank" rel="noopener">Nursing</a>
+              <a class="small-btn" href="https://www.ccc.edu/malcolm-x/departments/financial-aid/" target="_blank" rel="noopener">Financial aid</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="training partner" data-keywords="instituto instituto college del progreso latino nursing adn rn cna bilingual immigrant nontraditional">
+            <div class="type">Community-based training</div>
+            <h3>Instituto College / Instituto del Progreso Latino</h3>
+            <p>Chicago-based pathway provider serving many first-generation, immigrant, bilingual, and nontraditional learners; offers nursing and nursing-assistant pathways.</p>
+            <dl>
+              <div><dt>Phone:</dt> <dd>773-890-0055 ext. 4527</dd></div>
+              <div><dt>Email:</dt> <dd>collegeregistrar@idpl.org</dd></div>
+              <div><dt>Address:</dt> <dd>2520 S Western Ave, Chicago</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://www.institutochicago.org/apps/pages/index.jsp?pREC_ID=2170864&type=d&uREC_ID=1324591" target="_blank" rel="noopener">Nursing programs</a>
+              <a class="small-btn" href="https://www.institutochicago.org/" target="_blank" rel="noopener">Instituto</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="training" data-keywords="uic rn to bsn online university illinois chicago nursing bachelors scholarships">
+            <div class="type">RN-to-BSN</div>
+            <h3>UIC Online RN-to-BSN</h3>
+            <p>Online BSN-completion option for current RNs. Confirm current tuition, deadlines, transfer credits, and scholarship options before applying.</p>
+            <dl>
+              <div><dt>Phone:</dt> <dd>312-355-0423</dd></div>
+              <div><dt>Email:</dt> <dd>uiconlineprograms@uic.edu</dd></div>
+              <div><dt>Alt:</dt> <dd>866-772-2268 / onlineinfo@uic.edu</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://onlinenursing.uic.edu/online-programs/rn-bsn/" target="_blank" rel="noopener">RN-to-BSN</a>
+              <a class="small-btn" href="https://online.uic.edu/contact/" target="_blank" rel="noopener">Contact</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="training" data-keywords="suburban community college nursing cod harper moraine valley oakton collar county rn lpn cna">
+            <div class="type">Suburban community colleges</div>
+            <h3>Collar-county nursing programs</h3>
+            <p>Compare local public colleges such as College of DuPage, Harper, Moraine Valley, and Oakton for CNA, PN/LPN, RN/ADN, and bridge options.</p>
+            <dl>
+              <div><dt>COD:</dt> <dd>healthcareadvising@cod.edu / 630-942-2259</dd></div>
+              <div><dt>Harper:</dt> <dd>847-925-6000</dd></div>
+              <div><dt>Moraine:</dt> <dd>advising@morainevalley.edu / 708-974-5721</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://www.cod.edu/academics/programs/nursing/" target="_blank" rel="noopener">COD</a>
+              <a class="small-btn" href="https://www.harpercollege.edu/academics/health/nursing/" target="_blank" rel="noopener">Harper</a>
+              <a class="small-btn" href="https://www.morainevalley.edu/academics/academic-programs/health-sciences/nursing-program/" target="_blank" rel="noopener">Moraine</a>
+              <a class="small-btn" href="https://www.oakton.edu/academics/list-of-programs/nursing.php" target="_blank" rel="noopener">Oakton</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="funding partner" data-keywords="provident scholarship cook county health foundation allied health nursing scholarships underrepresented communities">
+            <div class="type">Cook County scholarship</div>
+            <h3>Cook County Health Foundation — Provident Scholarship</h3>
+            <p>Scholarship fund for students from or dedicated to underrepresented communities in Cook County pursuing health professional or allied health fields.</p>
+            <dl>
+              <div><dt>Email:</dt> <dd>info@healthfoundationcc.org</dd></div>
+              <div><dt>Watch for:</dt> <dd>Annual application cycle and eligibility updates</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://cookcountyhealth.org/provident-scholarship-fund/" target="_blank" rel="noopener">Scholarship</a>
+              <a class="small-btn" href="https://cchealthfoundation.org/contact/" target="_blank" rel="noopener">Foundation</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="funding partner" data-keywords="illinois nurses foundation scholarship nursing student nurse inf">
+            <div class="type">Nursing scholarships</div>
+            <h3>Illinois Nurses Foundation</h3>
+            <p>Statewide nursing scholarships for nursing students and nurses, typically with annual application windows and specific eligibility categories.</p>
+            <dl>
+              <div><dt>Phone:</dt> <dd>779-529-2012</dd></div>
+              <div><dt>Address:</dt> <dd>PO Box 636, Manteno, IL</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://www.illinoisnurses.foundation/scholarships/" target="_blank" rel="noopener">Scholarships</a>
+              <a class="small-btn" href="https://www.illinoisnurses.foundation/contact-us/" target="_blank" rel="noopener">Contact</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="partner training" data-keywords="chicagoland healthcare workforce collaborative employers hospitals training retention career pathways coalition">
+            <div class="type">Healthcare coalition</div>
+            <h3>Chicagoland Healthcare Workforce Collaborative</h3>
+            <p>Employer-led healthcare workforce coalition for training, retention, career pathways, and targeted hiring partnerships.</p>
+            <dl>
+              <div><dt>Contact:</dt> <dd>Anna Yankelev</dd></div>
+              <div><dt>Email:</dt> <dd>ayankelev@hmprg.org</dd></div>
+              <div><dt>Address:</dt> <dd>29 E Madison St #602, Chicago</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://chihealthworks.com/" target="_blank" rel="noopener">CHWC</a>
+              <a class="small-btn" href="https://chihealthworks.com/contact-us/" target="_blank" rel="noopener">Contact</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="basic-needs partner" data-keywords="childcare ccap illinois action for children cook county child care assistance program parent student">
+            <div class="type">Childcare support</div>
+            <h3>Illinois Action for Children</h3>
+            <p>Cook County administrator and support organization for Child Care Assistance Program questions, childcare referrals, and family support.</p>
+            <dl>
+              <div><dt>Phone:</dt> <dd>312-823-1100</dd></div>
+              <div><dt>Email:</dt> <dd>CCAPQuestions@actforchildren.org</dd></div>
+              <div><dt>HQ:</dt> <dd>4753 N Broadway, Chicago</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://www.actforchildren.org/child-care/pay-child-care/" target="_blank" rel="noopener">CCAP help</a>
+              <a class="small-btn" href="https://www.actforchildren.org/contact-us/" target="_blank" rel="noopener">Contact</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="basic-needs partner" data-keywords="211 metro chicago food housing utilities mental health transportation employment income benefits cook county united way">
+            <div class="type">Basic-needs navigation</div>
+            <h3>2-1-1 Metro Chicago</h3>
+            <p>Free 24/7 connection to food, housing, utilities, employment, mental health, substance-use, and other local support across Cook County and nearby areas.</p>
+            <dl>
+              <div><dt>Call:</dt> <dd>2-1-1 or 773-362-4401</dd></div>
+              <div><dt>Text:</dt> <dd>ZIP code to 898-211</dd></div>
+              <div><dt>Email:</dt> <dd>info@211metrochicago.org</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://211metrochicago.org/" target="_blank" rel="noopener">Search resources</a>
+              <a class="small-btn" href="https://211metrochicago.org/about/" target="_blank" rel="noopener">About 2-1-1</a>
+            </div>
+          </article>
+
+          <article class="resource" data-category="basic-needs" data-keywords="food pantry snap link medicaid benefits greater chicago food depository mrelief">
+            <div class="type">Food + public benefits</div>
+            <h3>Greater Chicago Food Depository + mRelief</h3>
+            <p>Find food pantries, get help applying for SNAP/Link or Medicaid, or use mRelief for SNAP screening by text.</p>
+            <dl>
+              <div><dt>GCFD phone:</dt> <dd>773-247-3663</dd></div>
+              <div><dt>mRelief text:</dt> <dd>Text FOOD to 74544</dd></div>
+            </dl>
+            <div class="links">
+              <a class="small-btn" href="https://www.chicagosfoodbank.org/get-help/" target="_blank" rel="noopener">Food help</a>
+              <a class="small-btn" href="https://www.mrelief.com/" target="_blank" rel="noopener">SNAP screening</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="band-muted">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">Questions</span>
+          <h2>Frequently asked</h2>
+          <p>Plain-language answers for workers comparing options.</p>
+        </div>
+        <div class="faq">
+          <details open>
+            <summary>Should I apply for aid before or after I choose a school?</summary>
+            <p>Do both early. Complete FAFSA or the Illinois Alternative Application as soon as possible, then ask each school what aid, scholarships, and payment options apply to your program. For WIOA, confirm the program is approved before enrolling.</p>
+          </details>
+          <details>
+            <summary>What costs should I budget beyond tuition?</summary>
+            <p>Common costs include prerequisites, entrance exams, background check, drug screen, physical, immunizations/titers, BLS/CPR, books, supplies, scrubs, shoes, transportation, childcare, exam fees, NCLEX prep, and state licensure fees.</p>
+          </details>
+          <details>
+            <summary>Can I keep working while in nursing school?</summary>
+            <p>Many students work while enrolled, but clinical schedules can be rigid and may change each term. Ask the school for sample schedules and build a shift plan before committing.</p>
+          </details>
+          <details>
+            <summary>Is this a Clipboard benefit?</summary>
+            <p>This page is an informational resource hub. It does not guarantee admission, funding, aid eligibility, work opportunities, or placement. Any future Clipboard-funded grants or programs should have separate rules and eligibility criteria.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-top">
+        <svg viewBox="0 0 1300 375" role="img" aria-label="Clipboard" fill="currentColor">
+          <path d="M188.89,306.72V9.36s56.96,0,56.96,0v297.34s-56.96,0-56.96,0v.02s0,0,0,0Z"/>
+          <path d="M267.88,66.34V9.36s56.96,0,56.96,0v56.98s-56.96,0-56.96,0ZM267.89,306.72V105.65s56.96,0,56.96,0v201.05s-56.96,0-56.96,0v.02Z"/>
+          <path d="M345.68,368.66V105.64s52.57,0,52.57,0l4.39,26.34h2.18c3.15-8.65,8.46-15.69,15.9-21.13,7.44-5.44,16.14-8.16,26.11-8.16,8.78,0,16.32,1.68,22.64,5.01,6.33,3.34,11.56,8.11,15.71,14.28,4.13,6.19,7.12,13.53,8.96,22.08,1.82,8.54,2.73,17.75,2.73,27.62v69.37c0,13.34-1.71,25.3-5.12,35.79-3.42,10.52-8.78,18.61-16.08,24.29-7.31,5.68-16.91,8.54-28.85,8.54-9.99,0-18.68-2.67-26.11-7.98-7.43-5.31-12.72-12.43-15.9-21.32h-2.18s0,88.29,0,88.29h-56.96v.02h.01v-.02ZM420.89,265.54c4.13,0,7.67-.93,10.59-2.78,2.92-1.84,5.12-4.51,6.57-7.98,1.47-3.47,2.18-7.55,2.18-12.25v-72.7c0-4.94-.73-9.11-2.18-12.43-1.47-3.34-3.65-5.92-6.57-7.79-2.92-1.87-6.46-2.78-10.59-2.78-4.39,0-8.09,1.12-11.14,3.34-3.05,2.21-5.41,5.44-7.12,9.63v92.74c1.95,4.21,4.39,7.42,7.31,9.63,2.92,2.21,6.57,3.34,10.96,3.34v.02s-.01,0-.01,0h0Z"/>
+          <path d="M617.44,309.69c-9.98,0-18.67-2.67-26.11-7.98-7.44-5.31-12.72-12.43-15.9-21.32h-2.18s-4.39,26.34-4.39,26.34h-52.57s0-297.37,0-297.37h56.96s0,122.63,0,122.63h2.18c3.15-8.65,8.46-15.69,15.9-21.13,7.43-5.44,16.14-8.16,26.11-8.16,8.78,0,16.32,1.69,22.65,5.01,6.33,3.34,11.55,8.11,15.7,14.28,4.13,6.19,7.12,13.53,8.96,22.08,1.82,8.54,2.74,17.75,2.74,27.62v69.37c0,13.34-1.71,25.3-5.12,35.79-3.41,10.52-8.78,18.6-16.08,24.29-7.31,5.68-16.91,8.54-28.85,8.54v.02h0,0ZM591.52,265.55c4.13,0,7.67-.93,10.59-2.78,2.92-1.84,5.12-4.51,6.57-7.98,1.47-3.47,2.19-7.55,2.19-12.25v-72.7c0-4.94-.74-9.11-2.19-12.43-1.47-3.34-3.65-5.92-6.57-7.79-2.9-1.87-6.46-2.78-10.59-2.78-4.39,0-8.1,1.12-11.14,3.34-3.05,2.21-5.42,5.44-7.12,9.63v92.74c1.95,4.21,4.39,7.42,7.31,9.63,2.91,2.21,6.57,3.34,10.96,3.34v.02s-.01,0-.01,0h0Z"/>
+          <path d="M760.69,309.67c-11.93,0-22.6-1.93-31.95-5.73-9.38-3.84-17.29-9.39-23.72-16.68-6.46-7.29-11.38-16.33-14.79-27.09-3.42-10.76-5.13-22.69-5.13-35.79v-36.35c0-17.57,2.97-32.69,8.96-45.45,5.97-12.73,14.56-22.56,25.76-29.49,11.18-6.92,24.83-10.39,40.91-10.39,12.17,0,22.94,1.93,32.32,5.74,9.38,3.84,17.28,9.45,23.72,16.87,6.45,7.42,11.37,16.38,14.8,26.9,3.42,10.52,5.13,22.45,5.13,35.79v36.35c0,17.57-3,32.78-8.96,45.64-5.97,12.86-14.62,22.69-25.93,29.49-11.32,6.81-25.01,10.2-41.09,10.2h-.02s0,0,0,0ZM760.69,265.53c4.39,0,8.04-.93,10.96-2.78,2.92-1.84,5.05-4.32,6.39-7.42,1.34-3.1,2-6.73,2-10.94v-76.04c0-4.46-.68-8.22-2-11.32-1.34-3.1-3.47-5.55-6.39-7.42-2.9-1.87-6.57-2.78-10.96-2.78-4.15,0-7.67.93-10.59,2.78-2.92,1.84-5.05,4.32-6.39,7.42-1.34,3.1-2,6.86-2,11.32v76.04c0,4.21.65,7.85,2,10.94,1.34,3.1,3.47,5.55,6.39,7.42,2.9,1.87,6.42,2.78,10.59,2.78Z"/>
+          <path d="M903.94,309.68c-8.51,0-16.01-1.68-22.46-5.01-6.46-3.34-11.69-8.03-15.71-14.1-4.02-6.06-6.99-13.34-8.96-21.89-1.94-8.54-2.9-17.75-2.9-27.62v-69.37c0-13.58,1.76-25.64,5.3-36.16,3.53-10.52,8.96-18.61,16.27-24.29,7.31-5.68,16.79-8.54,28.48-8.54,10.22,0,18.99,2.72,26.29,8.16,7.31,5.44,12.54,12.49,15.71,21.13h2.56s4.38-26.34,4.38-26.34h52.58s0,201.05,0,201.05h-52.58s-4.38-26.34-4.38-26.34h-2.56c-3.17,8.92-8.4,16.01-15.71,21.32-7.3,5.31-16.08,7.98-26.29,7.98h-.01s0,.02,0,.02ZM930.59,265.53c4.13,0,7.73-1.23,10.76-3.71,3.05-2.48,5.42-5.82,7.12-10v-91.63c-1.7-4.45-4.06-7.79-7.12-10-3.04-2.21-6.64-3.34-10.76-3.34-4.38,0-8.04.93-10.96,2.78-2.9,1.84-5.12,4.45-6.57,7.79-1.47,3.34-2.19,7.48-2.19,12.43v72.7c0,4.7.74,8.78,2.19,12.25,1.47,3.47,3.65,6.11,6.57,7.98s6.58,2.78,10.96,2.78v-.02s0-.01,0-.01Z"/>
+          <polygon points="1025.44 306.66 1025.44 306.73 1025.43 306.71 1025.42 306.71 1025.4 306.66 1025.44 306.66"/>
+          <path d="M1186.57,309.69c-8.52,0-16-1.68-22.46-5.01-6.46-3.34-11.69-8.03-15.7-14.1-4.03-6.06-6.99-13.34-8.96-21.89-1.95-8.54-2.92-17.75-2.92-27.62v-69.37c0-13.58,1.76-25.64,5.32-36.16,3.52-10.52,8.96-18.61,16.25-24.29,7.31-5.68,16.8-8.54,28.48-8.54,10.22,0,19,2.73,26.29,8.16,7.31,5.44,12.54,12.49,15.72,21.13h2.55s0-122.64,0-122.64h56.95s0,297.37,0,297.37h-52.57s-4.38-26.34-4.38-26.34h-2.55c-3.18,8.92-8.41,16.01-15.72,21.32-7.29,5.31-16.07,7.98-26.29,7.98h-.01ZM1213.23,265.55c4.13,0,7.73-1.23,10.78-3.71,3.05-2.48,5.41-5.82,7.12-10v-91.63c-1.7-4.46-4.07-7.79-7.12-10s-6.65-3.34-10.78-3.34c-4.38,0-8.04.93-10.95,2.78-2.92,1.84-5.13,4.46-6.57,7.79-1.47,3.34-2.19,7.47-2.19,12.43v72.7c0,4.7.73,8.78,2.19,12.25,1.47,3.47,3.65,6.11,6.57,7.98,2.92,1.87,6.57,2.78,10.95,2.78v-.02s0-.01,0-.01Z"/>
+          <path d="M1124.38,157.99h-14.98c-17.71,0-27.05,9.66-27.05,26.83v121.9s-56.95,0-56.95,0V105.42s52.58,0,52.58,0l4.39,26.75h2.26c2.82-10.17,11.62-18.77,15.1-21.14,6.64-4.53,14.99-7.75,24.64-8.4v55.36Z"/>
+          <path d="M105.22,159.03c10.98-40.24,30.04-104.47-12.66-104.47-14.06,0-23.76,8.95-23.76,29.77,0,35,.08,121.9.08,143.04,0,10.89,2.16,32.09,23.68,32.09,15.5,0,25.55-8.8,25.55-32.09,0,0,0-15.6,0-24.38h50.77c0,29.35,2.06,106.71-76.32,106.71-20.07,0-80.65-7.84-80.65-90.32l.05-125.4c0-73.97,48.35-87.66,80.6-87.66,65.26,0,95.64,52.75,63.3,152.71h-50.64Z"/>
+        </svg>
+      </div>
+      <p class="disclaimer">
+        <strong>Last reviewed:</strong> June 17, 2026. This resource is for informational purposes only and is not financial, legal, tax, or educational advice. Program requirements and deadlines change; verify details directly with the listed organization before applying, enrolling, or borrowing.
+      </p>
+      <div class="source-list" aria-label="Source links">
+        <a href="https://www.isac.org/" target="_blank" rel="noopener">ISAC</a>
+        <a href="https://chicookworks.org/locations/healthcare-center/" target="_blank" rel="noopener">Chicago Cook Workforce Partnership</a>
+        <a href="https://www.illinoisworknet.com/" target="_blank" rel="noopener">Illinois workNet</a>
+        <a href="https://www.ccc.edu/malcolm-x/departments/nursing-department/" target="_blank" rel="noopener">Malcolm X Nursing</a>
+        <a href="https://www.institutochicago.org/" target="_blank" rel="noopener">Instituto</a>
+        <a href="https://211metrochicago.org/" target="_blank" rel="noopener">2-1-1 Metro Chicago</a>
+        <a href="https://www.actforchildren.org/" target="_blank" rel="noopener">Illinois Action for Children</a>
+        <a href="https://cookcountyhealth.org/provident-scholarship-fund/" target="_blank" rel="noopener">Provident Scholarship</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById('resourceSearch');
+    const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+    const resources = Array.from(document.querySelectorAll('.resource'));
+    let currentFilter = 'all';
+
+    function normalize(value) {
+      return (value || '').toLowerCase().trim();
+    }
+
+    function filterResources() {
+      const query = normalize(searchInput.value);
+      resources.forEach(card => {
+        const categories = normalize(card.dataset.category);
+        const haystack = normalize(card.innerText + ' ' + card.dataset.keywords);
+        const matchesFilter = currentFilter === 'all' || categories.includes(currentFilter);
+        const matchesSearch = !query || haystack.includes(query);
+        card.style.display = matchesFilter && matchesSearch ? '' : 'none';
+      });
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        currentFilter = button.dataset.filter;
+        filterResources();
+      });
+    });
+
+    searchInput.addEventListener('input', filterResources);
+  </script>
+</body>
+</html>
